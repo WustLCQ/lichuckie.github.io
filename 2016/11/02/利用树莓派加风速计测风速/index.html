@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Linux,树莓派,传感器," />
 
 
 
@@ -84,19 +84,29 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="老师突然布置了一个任务，要测量室外温度、湿度、风速，至少测量1天24小时以上的数据，数据测量密度可以是30s的间隔或1分钟。鉴于实验室正好有个风速计，遂决定先将风速计连接在树莓派上进行测试，然后再购买温度湿度传感器。
+#树莓派配置实验室空闲的树莓派上没有系统，于是决定先烧写系统。百度的时候发现树莓派现在已经很方便了，可以直接通过NOOBS安装，任何多余的工具都不需要安装。到https://www.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/10/13/hello-world/index.html">
+<meta property="og:title" content="利用树莓派加风速计测风速">
+<meta property="og:url" content="http://yoursite.com/2016/11/02/利用树莓派加风速计测风速/index.html">
 <meta property="og:site_name" content="黄家湖畔">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-10-13T11:31:56.030Z">
+<meta property="og:description" content="老师突然布置了一个任务，要测量室外温度、湿度、风速，至少测量1天24小时以上的数据，数据测量密度可以是30s的间隔或1分钟。鉴于实验室正好有个风速计，遂决定先将风速计连接在树莓派上进行测试，然后再购买温度湿度传感器。
+#树莓派配置实验室空闲的树莓派上没有系统，于是决定先烧写系统。百度的时候发现树莓派现在已经很方便了，可以直接通过NOOBS安装，任何多余的工具都不需要安装。到https://www.">
+<meta property="og:image" content="http://yoursite.com/./img_5249b9158d98d.png">
+<meta property="og:image" content="http://yoursite.com/./QQ截图20161102172325.jpg">
+<meta property="og:image" content="http://yoursite.com/./20131006224911821.jpg">
+<meta property="og:image" content="http://yoursite.com/./QQ截图20161102172455.jpg">
+<meta property="og:image" content="http://yoursite.com/./QQ截图20161102172636.jpg">
+<meta property="og:image" content="http://yoursite.com/./TB11e9PHVXXXXbwXXXXXXXXXXXX_!!0-item_pic.jpg">
+<meta property="og:image" content="http://yoursite.com/./QQ图片20161102173218.png">
+<meta property="og:image" content="http://yoursite.com/./5d944af0f736afc378746f68b019ebc4b6451299.jpg">
+<meta property="og:image" content="http://yoursite.com/./95c87b540923dd54fd4af765d209b3de9d8248d9.jpg">
+<meta property="og:updated_time" content="2016-11-02T09:40:28.404Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="利用树莓派加风速计测风速">
+<meta name="twitter:description" content="老师突然布置了一个任务，要测量室外温度、湿度、风速，至少测量1天24小时以上的数据，数据测量密度可以是30s的间隔或1分钟。鉴于实验室正好有个风速计，遂决定先将风速计连接在树莓派上进行测试，然后再购买温度湿度传感器。
+#树莓派配置实验室空闲的树莓派上没有系统，于是决定先烧写系统。百度的时候发现树莓派现在已经很方便了，可以直接通过NOOBS安装，任何多余的工具都不需要安装。到https://www.">
+<meta name="twitter:image" content="http://yoursite.com/./img_5249b9158d98d.png">
 
 
 
@@ -114,7 +124,7 @@ Quick">
   };
 </script>
 
-  <title> Hello World | 黄家湖畔 </title>
+  <title> 利用树莓派加风速计测风速 | 黄家湖畔 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +254,7 @@ Quick">
             
             
               
-                Hello World
+                利用树莓派加风速计测风速
               
             
           </h1>
@@ -256,19 +266,38 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-13T16:36:15+08:00" content="2016-10-13">
-              2016-10-13
+            <time itemprop="dateCreated" datetime="2016-11-02T16:49:06+08:00" content="2016-11-02">
+              2016-11-02
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/嵌入式/" itemprop="url" rel="index">
+                    <span itemprop="name">嵌入式</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/13/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/13/hello-world/" itemprop="commentsCount"></span>
+                <a href="/2016/11/02/利用树莓派加风速计测风速/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/02/利用树莓派加风速计测风速/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -291,15 +320,25 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>老师突然布置了一个任务，要测量室外温度、湿度、风速，至少测量1天24小时以上的数据，数据测量密度可以是30s的间隔或1分钟。<br>鉴于实验室正好有个风速计，遂决定先将风速计连接在树莓派上进行测试，然后再购买温度湿度传感器。</p>
+<p>#树莓派配置<br>实验室空闲的树莓派上没有系统，于是决定先烧写系统。百度的时候发现树莓派现在已经很方便了，可以直接通过NOOBS安装，任何多余的工具都不需要安装。<br>到<a href="https://www.raspberrypi.org/downloads/下载NOOBS，建议下载离线版本，约1.1G。下载完成后，将zip文件解压到为树莓派准备好的SD卡中。文件内容如下" target="_blank" rel="external">https://www.raspberrypi.org/downloads/下载NOOBS，建议下载离线版本，约1.1G。下载完成后，将zip文件解压到为树莓派准备好的SD卡中。文件内容如下</a><br><img src="./img_5249b9158d98d.png" alt="Alt text"><br>将SD卡插入树莓派中，上电，选择系统进行安装。<br>系统安装好后，为了更方便地使用，再给树莓派安装些其他的工具。</p>
+<p>##安装vim<br>大名不必多说<br><code>sudo apt-get install vim</code></p>
+<p>##安装xrdp<br>为了能在windows上远程桌面连接树莓派，需要安装xrdp<br><code>sudo apt-get install xrdp</code></p>
+<p>##安装samba<br>通过samba服务，可以自由、访问修改树莓派家目录下的文件、代码</p>
+<ol>
+<li>首先安装 samba：<br><code>sudo apt-get install samba samba-common-bin</code></li>
+<li>然后修改配置文件：<br><code>sudo vi /etc/samba/smb.conf</code></li>
+<li>下面的配置是让用户可以访问自己的 home 目录。</li>
+</ol>
+<ul>
+<li>配置用户可以读写自己的 home 目录，在“[homes]”节中，把 “read only = yes” 改为 “read only = no” </li>
+<li>找到browseable=no改为yes 否则等会访问时此文件夹会隐藏</li>
+</ul>
+<ol>
+<li>重启samba服务：<br><code>sudo /etc/init.d/samba restart</code></li>
+<li>把系统默认用户pi添加到samba ：<br><code>sudo smbpasswd -a pi</code><br>会提示你输入密码：建议跟串口登陆的密码一致，防止密码太多弄混了</li>
+<li>windows访问<br>任意打开一个文件浏览器，输入ip地址:\172.20.223.91\pi<br>现在就可以从其它机器上访问 pi 这个用户的 home 目录了。<br>#windows连接树莓派<br>可以通过两种方法连接，一是远程桌面连接，一是通过Putty连接。<br>##远程桌面连接<br>输入树莓派的IP、用户名（默认pi）、密码（raspberry），即可连接成功。<br><img src="./QQ截图20161102172325.jpg" alt="Alt text"><br><img src="./20131006224911821.jpg" alt="Alt text"><br><img src="./QQ截图20161102172455.jpg" alt="Alt text"><br>##PUTTY连接<br>下载PUTTY，打开，然后在箭头所示的地方输入树莓派的IP，再输入用户名密码，即可连接成功。<br><img src="./QQ截图20161102172636.jpg" alt="Alt text"><br>#连接风速计<br>我用的风速计是这样的<br><img src="./TB11e9PHVXXXXbwXXXXXXXXXXXX_!!0-item_pic.jpg" alt="Alt text"><br>用了个USB转串口，风速计5v的线直接接到了树莓派上，另外三根接到了串口对应地方，其实也可以直接都接到树莓派上。树莓派和串口的引脚对应如下<br><img src="./QQ图片20161102173218.png" alt="Alt text"><br><img src="./5d944af0f736afc378746f68b019ebc4b6451299.jpg" alt="Alt text"><br><img src="./95c87b540923dd54fd4af765d209b3de9d8248d9.jpg" alt="Alt text"><br>树莓派中程序用python实现，代码如下<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> serial</div><div class="line">	</div><div class="line">ser = serial.Serial(<span class="string">"/dev/ttyUSB0"</span>,<span class="number">9600</span>)</div><div class="line">k=<span class="number">0</span></div><div class="line"><span class="keyword">while</span> ser.inWaiting() &gt;<span class="number">0</span>:</div><div class="line">	k = k+<span class="number">1</span></div><div class="line">	</div><div class="line">n = ser.write(<span class="string">"\xAA\x01\x03\x0F\x00"</span>)</div><div class="line">str = ser.read(<span class="number">13</span>)	</div><div class="line">fout = open(<span class="string">"/home/pi/driver/feng/feng.txt"</span>,<span class="string">"wr"</span>)</div><div class="line">	</div><div class="line"><span class="keyword">print</span> &gt;&gt;fout,str</div><div class="line">	</div><div class="line">fout.close()</div><div class="line">ser.close()</div></pre></td></tr></table></figure></li>
+</ol>
 
       
     </div>
@@ -319,18 +358,28 @@ Quick">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/树莓派/" rel="tag">#树莓派</a>
+          
+            <a href="/tags/传感器/" rel="tag">#传感器</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/10/13/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/02/利用树莓派加风速计测风速/" rel="prev" title="利用树莓派加风速计测风速">
-                利用树莓派加风速计测风速 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -356,8 +405,8 @@ Quick">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/13/hello-world/"
-           data-title="Hello World" data-url="http://yoursite.com/2016/10/13/hello-world/">
+      <div class="ds-thread" data-thread-key="2016/11/02/利用树莓派加风速计测风速/"
+           data-title="利用树莓派加风速计测风速" data-url="http://yoursite.com/2016/11/02/利用树莓派加风速计测风速/">
       </div>
     
   </div>
@@ -448,7 +497,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
