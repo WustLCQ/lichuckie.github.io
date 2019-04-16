@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;#x5B89;&amp;#x88C5;MongoDBmac&amp;#x4E0B;&amp;#x76F4;&amp;#x63A5;&amp;#x4F7F;&amp;#x7528;brew&amp;#x5B89;&amp;#x88C5;
+brew install mongodb
+&amp;#x542F;&amp;#x52A8;MongoDB&amp;#x53EF;&amp;#x4EE5;&amp;#x5C06;MongoDB&amp;#x7684;&amp;#x542F;&amp;#x52A8;&amp;#x914D;&amp;#x7F6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS+MongoDB入门">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/NodeJS+MongoDB入门/index.html">
+<meta property="og:site_name" content="桃李无言">
+<meta property="og:description" content="&amp;#x5B89;&amp;#x88C5;MongoDBmac&amp;#x4E0B;&amp;#x76F4;&amp;#x63A5;&amp;#x4F7F;&amp;#x7528;brew&amp;#x5B89;&amp;#x88C5;
+brew install mongodb
+&amp;#x542F;&amp;#x52A8;MongoDB&amp;#x53EF;&amp;#x4EE5;&amp;#x5C06;MongoDB&amp;#x7684;&amp;#x542F;&amp;#x52A8;&amp;#x914D;&amp;#x7F6">
+<meta property="og:updated_time" content="2019-04-16T08:25:17.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS+MongoDB入门">
+<meta name="twitter:description" content="&amp;#x5B89;&amp;#x88C5;MongoDBmac&amp;#x4E0B;&amp;#x76F4;&amp;#x63A5;&amp;#x4F7F;&amp;#x7528;brew&amp;#x5B89;&amp;#x88C5;
+brew install mongodb
+&amp;#x542F;&amp;#x52A8;MongoDB&amp;#x53EF;&amp;#x4EE5;&amp;#x5C06;MongoDB&amp;#x7684;&amp;#x542F;&amp;#x52A8;&amp;#x914D;&amp;#x7F6">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/28/NodeJS+MongoDB入门/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>NodeJS+MongoDB入门 | 桃李无言</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">桃李无言</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/NodeJS+MongoDB入门/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Chuckie"/>
+      <meta itemprop="description" content="略显文艺的工科男"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桃李无言"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NodeJS+MongoDB入门
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-28 16:55:31" itemprop="dateCreated datePublished" datetime="2019-03-28T16:55:31+08:00">2019-03-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 16:25:17" itemprop="dateModified" datetime="2019-04-16T16:25:17+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="&#x5B89;&#x88C5;MongoDB"><a href="#&#x5B89;&#x88C5;MongoDB" class="headerlink" title="&#x5B89;&#x88C5;MongoDB"></a>&#x5B89;&#x88C5;MongoDB</h2><p>mac&#x4E0B;&#x76F4;&#x63A5;&#x4F7F;&#x7528;brew&#x5B89;&#x88C5;</p>
+<p><code>brew install mongodb</code></p>
+<h2 id="&#x542F;&#x52A8;MongoDB"><a href="#&#x542F;&#x52A8;MongoDB" class="headerlink" title="&#x542F;&#x52A8;MongoDB"></a>&#x542F;&#x52A8;MongoDB</h2><p>&#x53EF;&#x4EE5;&#x5C06;MongoDB&#x7684;&#x542F;&#x52A8;&#x914D;&#x7F6E;&#x9879;&#x4FDD;&#x5B58;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x6211;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5982;&#x4E0B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">dbpath=/data/db/</div><div class="line">logpath=/data/log/mongodb.log</div><div class="line">logappend=true</div><div class="line">fork=true</div><div class="line">port=27017</div></pre></td></tr></table></figure>
+<p>&#x7136;&#x540E;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x542F;&#x52A8;MongoDB</p>
+<p><code>mongod -f /data/mongo.conf</code></p>
+<h2 id="NodeJS&#x4E2D;&#x64CD;&#x4F5C;MongoDB"><a href="#NodeJS&#x4E2D;&#x64CD;&#x4F5C;MongoDB" class="headerlink" title="NodeJS&#x4E2D;&#x64CD;&#x4F5C;MongoDB"></a>NodeJS&#x4E2D;&#x64CD;&#x4F5C;MongoDB</h2><blockquote>
+<p>mongoose&#x662F;&#x5728;node.js&#x73AF;&#x5883;&#x4E0B;&#x5BF9;mongodb&#x8FDB;&#x884C;&#x4FBF;&#x6377;&#x64CD;&#x4F5C;&#x7684;&#x5BF9;&#x8C61;&#x6A21;&#x578B;&#x5DE5;&#x5177;</p>
+</blockquote>
+<p>&#x4F7F;&#x7528;mongoose&#xFF0C;&#x53EF;&#x4EE5;&#x5F88;&#x4FBF;&#x6377;&#x5730;&#x64CD;&#x4F5C;mongodb&#x3002;</p>
+<h2 id="&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;"><a href="#&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;"></a>&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;</h2><h3 id="&#x7B80;&#x5355;&#x8FDE;&#x63A5;"><a href="#&#x7B80;&#x5355;&#x8FDE;&#x63A5;" class="headerlink" title="&#x7B80;&#x5355;&#x8FDE;&#x63A5;"></a>&#x7B80;&#x5355;&#x8FDE;&#x63A5;</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * @param url(s) &#x6570;&#x636E;&#x5E93;&#x5730;&#x5740;,&#x53EF;&#x4EE5;&#x662F;&#x591A;&#x4E2A;,&#x4EE5;`,`&#x9694;&#x5F00;</div><div class="line"> * @param options &#x53EF;&#x9009;,&#x914D;&#x7F6E;&#x53C2;&#x6570;</div><div class="line"> * @param callback &#x53EF;&#x9009;,&#x56DE;&#x8C03;</div><div class="line"> */</div><div class="line">mongoose.connect(url(s), [options], [callback])</div><div class="line">mongoose.connect(<span class="string">&apos;mongodb://&#x6570;&#x636E;&#x5E93;&#x5730;&#x5740;(&#x5305;&#x62EC;&#x7AEF;&#x53E3;&#x53F7;)/&#x6570;&#x636E;&#x5E93;&#x540D;&#x79F0;&apos;</span>)</div></pre></td></tr></table></figure>
+<p>&#x4F8B;&#x5982;&#x8FDE;&#x63A5;&#x672C;&#x673A;<strong>27017</strong>&#x7AEF;&#x53E3;&#x4E0B;<strong>student</strong>&#x6570;&#x636E;&#x5E93;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongoose.connect(<span class="string">&apos;mongodb://localhost:27017/student&apos;</span>, { <span class="attr">useNewUrlParser</span>: <span class="literal">true</span> });</div></pre></td></tr></table></figure>
+<h3 id="&#x76D1;&#x542C;&#x8FDE;&#x63A5;&#x72B6;&#x6001;"><a href="#&#x76D1;&#x542C;&#x8FDE;&#x63A5;&#x72B6;&#x6001;" class="headerlink" title="&#x76D1;&#x542C;&#x8FDE;&#x63A5;&#x72B6;&#x6001;"></a>&#x76D1;&#x542C;&#x8FDE;&#x63A5;&#x72B6;&#x6001;</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mongoose.connection.on(<span class="string">&apos;connected&apos;</span>, () =&gt; {</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">&apos;Mongoose default connection open to mongodb://localhost:27017/student&apos;</span>);</div><div class="line">});</div><div class="line"></div><div class="line">mongoose.connection.on(<span class="string">&apos;error&apos;</span>, e =&gt; {</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">&apos;Mongoose default connection error &apos;</span> + e);</div><div class="line">});</div><div class="line"></div><div class="line">mongoose.connection.on(<span class="string">&apos;disconnected&apos;</span>, () =&gt; {</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">&apos;Mongoose default disconnected&apos;</span>);</div><div class="line">});</div></pre></td></tr></table></figure>
+<h2 id="&#x4ECE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x51FA;&#x53D1;"><a href="#&#x4ECE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x51FA;&#x53D1;" class="headerlink" title="&#x4ECE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x51FA;&#x53D1;"></a>&#x4ECE;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x51FA;&#x53D1;</h2><h3 id="&#x9700;&#x6C42;&#x63CF;&#x8FF0;"><a href="#&#x9700;&#x6C42;&#x63CF;&#x8FF0;" class="headerlink" title="&#x9700;&#x6C42;&#x63CF;&#x8FF0;"></a>&#x9700;&#x6C42;&#x63CF;&#x8FF0;</h3><p><strong>&#x5B66;&#x751F;</strong>&#x4E0A;&#x8BFE;&#xFF0C;&#x4E00;&#x4E2A;<strong>&#x5B66;&#x751F;</strong>&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x591A;&#x95E8;&#x8BFE;&#xFF0C;&#x6BCF;&#x95E8;&#x8BFE;&#x90FD;&#x6709;&#x5BF9;&#x5E94;&#x7684;&#x6210;&#x7EE9;&#xFF0C;&#x6BCF;&#x95E8;&#x8BFE;&#x90FD;&#x6709;&#x5F88;&#x591A;&#x5B66;&#x751F;&#x4E0A;&#x3002;</p>
+<h3 id="&#x9700;&#x6C42;&#x5206;&#x6790;"><a href="#&#x9700;&#x6C42;&#x5206;&#x6790;" class="headerlink" title="&#x9700;&#x6C42;&#x5206;&#x6790;"></a>&#x9700;&#x6C42;&#x5206;&#x6790;</h3><p>&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x9700;&#x6C42;&#xFF0C;&#x60F3;&#x5FC5;&#x5927;&#x5BB6;&#x90FD;&#x662F;&#x4F1A;&#x5FC3;&#x4E00;&#x7B11;&#xFF0C;&#x60F3;&#x8D77;&#x4E86;&#x66FE;&#x7ECF;&#x88AB;&#x5B66;&#x751F;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x6240;&#x652F;&#x914D;&#x7684;&#x6050;&#x60E7;&#x3002;&#x7528;SQL&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x5E94;&#x8BE5;&#x9A6C;&#x4E0A;&#x53EF;&#x4EE5;&#x521B;&#x5EFA;&#x51FA;<strong>&#x5B66;&#x751F;</strong>&#x3001;<strong>&#x6210;&#x7EE9;</strong>&#x3001;<strong>&#x8BFE;&#x7A0B;</strong>&#x4E09;&#x5F20;&#x8868;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>studentId</th>
+<th>studentName</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>&#x5F20;&#x4E09;</td>
+<td>20</td>
+</tr>
+<tr>
+<td>002</td>
+<td>&#x674E;&#x56DB;</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>courseId</th>
+<th>courseName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>&#x8BED;&#x6587;</td>
+</tr>
+<tr>
+<td>002</td>
+<td>&#x6570;&#x5B66;</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>studentId</th>
+<th>courseId</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>001</td>
+<td>80</td>
+</tr>
+<tr>
+<td>001</td>
+<td>002</td>
+<td>72</td>
+</tr>
+<tr>
+<td>002</td>
+<td>001</td>
+<td>77</td>
+</tr>
+</tbody>
+</table>
+<p>&#x4F7F;&#x7528;MongoDB&#x5B58;&#x50A8;&#x65F6;&#xFF0C;&#x5219;&#x5B8C;&#x5168;&#x4E0D;&#x4E00;&#x6837;&#x4E86;&#x3002;MongoDB&#x4E2D;&#x5BF9;&#x5E94;SQL&#x4E2D;&#x7684;&#x8868;&#xFF08;table&#xFF09;&#x7684;&#x662F;&#x96C6;&#x5408;&#xFF08;collection&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x8868;&#x91CC;&#x9762;&#x6BCF;&#x4E00;&#x884C;&#xFF08;row&#xFF09;&#x7684;&#x662F;&#x6587;&#x6863;&#xFF08;document&#xFF09;&#xFF0C;&#x6BCF;&#x4E00;&#x6761;&#x6587;&#x6863;&#x7C7B;&#x4F3C;&#x4E00;&#x4E2A;json&#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x6309;&#x7167;&#x4E0A;&#x6587;&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5728;MongoDB&#x4E2D;&#x53EA;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B66;&#x751F;&#x96C6;&#x5408;&#xFF0C;&#x7136;&#x540E;&#x6BCF;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#x4FDD;&#x5B58;&#x4E00;&#x4E2A;&#x5B66;&#x751F;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">{</div><div class="line">  <span class="attr">&quot;_id&quot;</span>: {</div><div class="line">    <span class="attr">&quot;$oid&quot;</span>: <span class="string">&quot;5c9cb9e6eedbbe38450038cb&quot;</span></div><div class="line">  },</div><div class="line">  <span class="attr">&quot;studentId&quot;</span>: <span class="string">&quot;001&quot;</span>,</div><div class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>,</div><div class="line">  <span class="attr">&quot;age&quot;</span>: <span class="number">20</span>,</div><div class="line">  <span class="attr">&quot;sex&quot;</span>: <span class="string">&quot;&#x7537;&quot;</span>,</div><div class="line">  <span class="attr">&quot;courses&quot;</span>: [</div><div class="line">    {</div><div class="line">      <span class="attr">&quot;_id&quot;</span>: {</div><div class="line">        <span class="attr">&quot;$oid&quot;</span>: <span class="string">&quot;5ca5da0e3d1c1b49348c73aa&quot;</span></div><div class="line">      },</div><div class="line">      <span class="attr">&quot;courseId&quot;</span>: <span class="string">&quot;001&quot;</span>,</div><div class="line">      <span class="attr">&quot;courseName&quot;</span>: <span class="string">&quot;&#x8BED;&#x6587;&quot;</span>,</div><div class="line">      <span class="attr">&quot;grade&quot;</span>: <span class="number">80</span></div><div class="line">    },</div><div class="line">    {</div><div class="line">      <span class="attr">&quot;_id&quot;</span>: {</div><div class="line">        <span class="attr">&quot;$oid&quot;</span>: <span class="string">&quot;5ca5da0e3d1c1b49348c73a9&quot;</span></div><div class="line">      },</div><div class="line">      <span class="attr">&quot;courseId&quot;</span>: <span class="string">&quot;002&quot;</span>,</div><div class="line">      <span class="attr">&quot;courseName&quot;</span>: <span class="string">&quot;&#x6570;&#x5B66;&quot;</span>,</div><div class="line">      <span class="attr">&quot;grade&quot;</span>: <span class="number">72</span></div><div class="line">    }</div><div class="line">  ],</div><div class="line">  <span class="attr">&quot;__v&quot;</span>: <span class="number">0</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">{</div><div class="line">  <span class="attr">&quot;_id&quot;</span>: {</div><div class="line">    <span class="attr">&quot;$oid&quot;</span>: <span class="string">&quot;5c9ded4d3aa8134509421732&quot;</span></div><div class="line">  },</div><div class="line">  <span class="attr">&quot;studentId&quot;</span>: <span class="string">&quot;002&quot;</span>,</div><div class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;&#x674E;&#x56DB;&quot;</span>,</div><div class="line">  <span class="attr">&quot;age&quot;</span>: <span class="number">20</span>,</div><div class="line">  <span class="attr">&quot;courses&quot;</span>: [</div><div class="line">    {</div><div class="line">      <span class="attr">&quot;_id&quot;</span>: {</div><div class="line">        <span class="attr">&quot;$oid&quot;</span>: <span class="string">&quot;5ca5da0e3d1c1b49348c73aa&quot;</span></div><div class="line">      },</div><div class="line">      <span class="attr">&quot;courseId&quot;</span>: <span class="string">&quot;001&quot;</span>,</div><div class="line">      <span class="attr">&quot;courseName&quot;</span>: <span class="string">&quot;&#x8BED;&#x6587;&quot;</span>,</div><div class="line">      <span class="attr">&quot;grade&quot;</span>: <span class="number">77</span></div><div class="line">    }</div><div class="line">  ],</div><div class="line">  <span class="attr">&quot;__v&quot;</span>: <span class="number">0</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x5F88;&#x663E;&#x7136;&#xFF0C;&#x4E00;&#x6761;&#x6587;&#x6863;&#x4E2D;&#x5C31;&#x8BB0;&#x5F55;&#x4E86;&#x4E00;&#x540D;&#x5B66;&#x751F;&#x7684;&#x5168;&#x90E8;&#x4FE1;&#x606F;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#xFF0C;&#x6587;&#x6863;&#x4E0E;&#x6587;&#x6863;&#x7684;&#x7ED3;&#x6784;&#x4E0D;&#x9700;&#x8981;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#xFF0C;&#x6BD4;&#x5982;&#x5F20;&#x4E09;&#x6709;&#x6027;&#x522B;&#x4FE1;&#x606F;&#xFF0C;&#x674E;&#x56DB;&#x6CA1;&#x6709;&#x6027;&#x522B;&#x4FE1;&#x606F;&#xFF0C;&#x5F20;&#x4E09;&#x6709;&#x4E24;&#x95E8;&#x8BFE;&#x7A0B;&#x7684;&#x6210;&#x7EE9;&#x4FE1;&#x606F;&#xFF0C;&#x674E;&#x56DB;&#x53EA;&#x6709;&#x4E00;&#x95E8;&#x8BFE;&#x7A0B;&#x7684;&#x6210;&#x7EE9;&#x4FE1;&#x606F;&#x3002;</p>
+<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><blockquote>
+<p>Schema&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5B9A;&#x4E49;MongoDB&#x4E2D;&#x96C6;&#x5408;Collection&#x91CC;&#x6587;&#x6863;document&#x7684;&#x7ED3;&#x6784;,&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;mongoose&#x5BF9;&#x8868;&#x7ED3;&#x6784;&#x7684;&#x5B9A;&#x4E49;(&#x4E0D;&#x4EC5;&#x4EC5;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x6587;&#x6863;&#x7684;&#x7ED3;&#x6784;&#x548C;&#x5C5E;&#x6027;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x6587;&#x6863;&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x3001;&#x9759;&#x6001;&#x6A21;&#x578B;&#x65B9;&#x6CD5;&#x3001;&#x590D;&#x5408;&#x7D22;&#x5F15;&#x7B49;)&#xFF0C;&#x6BCF;&#x4E2A;schema&#x4F1A;&#x6620;&#x5C04;&#x5230;mongodb&#x4E2D;&#x7684;&#x4E00;&#x4E2A;collection&#xFF0C;schema&#x4E0D;&#x5177;&#x5907;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;&#x7684;&#x80FD;&#x529B;</p>
+</blockquote>
+<p>&#x5BF9;&#x4E8E;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x521B;&#x5EFA;&#x5982;&#x4E0B;schema</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&apos;mongoose&apos;</span>);</div><div class="line"><span class="keyword">const</span> { Schema } = mongoose;</div><div class="line"></div><div class="line"><span class="keyword">const</span> schema = <span class="keyword">new</span> Schema({</div><div class="line">    <span class="comment">// &#x5B66;&#x53F7;</span></div><div class="line">    studentId: {</div><div class="line">        <span class="attr">type</span>: <span class="built_in">String</span>,</div><div class="line">        <span class="attr">index</span>: <span class="literal">true</span></div><div class="line">    },</div><div class="line">    <span class="comment">// &#x59D3;&#x540D;</span></div><div class="line">    name: <span class="built_in">String</span>,</div><div class="line">    <span class="comment">// &#x6027;&#x522B;</span></div><div class="line">    sex: <span class="built_in">String</span>,</div><div class="line">    <span class="comment">// &#x5E74;&#x9F84;</span></div><div class="line">    age: <span class="built_in">Number</span>,</div><div class="line">    <span class="attr">courses</span>: [{</div><div class="line">        <span class="attr">courseId</span>: {</div><div class="line">            <span class="attr">type</span>: <span class="built_in">String</span>,</div><div class="line">            <span class="attr">index</span>: <span class="literal">true</span></div><div class="line">        },</div><div class="line">        <span class="attr">courseName</span>: <span class="built_in">String</span>,</div><div class="line">        <span class="attr">grade</span>: <span class="built_in">Number</span></div><div class="line">    }]</div><div class="line">});</div></pre></td></tr></table></figure>
+<p>schema&#x4E2D;&#x7684;&#x5B57;&#x6BB5;&#x652F;&#x6301;8&#x79CD;&#x7C7B;&#x578B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">String      &#x5B57;&#x7B26;&#x4E32;</div><div class="line">Number      &#x6570;&#x5B57;</div><div class="line">Date        &#x65E5;&#x671F;</div><div class="line">Buffer      &#x4E8C;&#x8FDB;&#x5236;</div><div class="line">Boolean     &#x5E03;&#x5C14;&#x503C;</div><div class="line">Mixed       &#x6DF7;&#x5408;&#x7C7B;&#x578B;</div><div class="line">ObjectId    &#x5BF9;&#x8C61;ID</div><div class="line">Array       &#x6570;&#x7EC4;</div></pre></td></tr></table></figure>
+<p>&#x5728;schema&#x5B9A;&#x4E49;&#x4E4B;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x5176;&#x4ED6;&#x5B57;&#x6BB5;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;add()&#x65B9;&#x6CD5;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">schema.add({ <span class="attr">address</span>: <span class="string">&apos;string&apos;</span> });</div></pre></td></tr></table></figure>
+<h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><blockquote>
+<p>model&#x662F;&#x7531;Schema&#x7F16;&#x8BD1;&#x800C;&#x6210;&#x7684;&#x5047;&#x60F3;&#xFF08;fancy&#xFF09;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x5177;&#x6709;&#x62BD;&#x8C61;&#x5C5E;&#x6027;&#x548C;&#x884C;&#x4E3A;&#x3002;Model&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF08;instance&#xFF09;&#x5C31;&#x662F;&#x4E00;&#x4E2A;document&#xFF0C;document&#x53EF;&#x4EE5;&#x4FDD;&#x5B58;&#x5230;&#x6570;&#x636E;&#x5E93;&#x548C;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;&#x7B80;&#x5355;&#x8BF4;&#x5C31;&#x662F;model&#x662F;&#x7531;schema&#x751F;&#x6210;&#x7684;&#x6A21;&#x578B;&#xFF0C;&#x53EF;&#x4EE5;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+</blockquote>
+<p>&#x5BF9;&#x4E8E;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x5982;&#x4E0B;model</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> StudentModel = mongoose.model(<span class="string">&apos;Student&apos;</span>, schema);</div></pre></td></tr></table></figure>
+<h2 id="&#x589E;&#x5220;&#x6539;&#x67E5;"><a href="#&#x589E;&#x5220;&#x6539;&#x67E5;" class="headerlink" title="&#x589E;&#x5220;&#x6539;&#x67E5;"></a>&#x589E;&#x5220;&#x6539;&#x67E5;</h2><h3 id="&#x65B0;&#x589E;&#x6587;&#x6863;"><a href="#&#x65B0;&#x589E;&#x6587;&#x6863;" class="headerlink" title="&#x65B0;&#x589E;&#x6587;&#x6863;"></a>&#x65B0;&#x589E;&#x6587;&#x6863;</h3><ul>
+<li>save()</li>
+</ul>
+<p>model&#x7684;&#x6BCF;&#x4E2A;&#x5B9E;&#x529B;&#x90FD;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#xFF0C;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;model&#x5B9E;&#x529B;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;save&#x65B9;&#x6CD5;&#xFF0C;&#x5373;&#x53EF;&#x65B0;&#x589E;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#x3002;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> student = <span class="keyword">new</span> StudentModel({ <span class="attr">studentId</span>: <span class="string">&apos;003&apos;</span>, <span class="attr">name</span>: <span class="string">&apos;&#x738B;&#x4E94;&apos;</span>});</div><div class="line">student.save();</div></pre></td></tr></table></figure>
+<ul>
+<li>create()</li>
+</ul>
+<p>&#x76F4;&#x63A5;&#x4F7F;&#x7528;model&#x7684;create&#x65B9;&#x6CD5;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x65B0;&#x589E;&#x6587;&#x6863;&#x3002;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StudentModel.create({ <span class="attr">studentId</span>: <span class="string">&apos;003&apos;</span>, <span class="attr">name</span>: <span class="string">&apos;&#x738B;&#x4E94;&apos;</span>})</div></pre></td></tr></table></figure></p>
+<h3 id="&#x5220;&#x9664;&#x6587;&#x6863;"><a href="#&#x5220;&#x9664;&#x6587;&#x6863;" class="headerlink" title="&#x5220;&#x9664;&#x6587;&#x6863;"></a>&#x5220;&#x9664;&#x6587;&#x6863;</h3><ul>
+<li>remove()</li>
+</ul>
+<p>&#x5220;&#x9664;&#x5B66;&#x53F7;&#x4E3A;001&#x7684;&#x5B66;&#x751F;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StudentModel.remove({ <span class="attr">studentId</span>: <span class="string">&apos;001&apos;</span> })</div></pre></td></tr></table></figure>
+<p>&#x901A;&#x8FC7;model&#x521B;&#x5EFA;&#x7684;&#x5B9E;&#x4F8B;&#x672C;&#x8EAB;&#x4E5F;&#x6709;remove&#x65B9;&#x6CD5;&#xFF0C;&#x8C03;&#x7528;remove&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5220;&#x9664;&#x8FD9;&#x6761;&#x6587;&#x6863;&#x3002;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">student.remove();</div></pre></td></tr></table></figure>
+<h3 id="&#x4FEE;&#x6539;&#x6587;&#x6863;"><a href="#&#x4FEE;&#x6539;&#x6587;&#x6863;" class="headerlink" title="&#x4FEE;&#x6539;&#x6587;&#x6863;"></a>&#x4FEE;&#x6539;&#x6587;&#x6863;</h3><ul>
+<li>update()</li>
+</ul>
+<p>&#x4FEE;&#x6539;&#x5B66;&#x53F7;&#x4E3A;001&#x7684;&#x5B66;&#x751F;&#x4FE1;&#x606F;&#xFF0C;&#x5E76;&#x5C06;&#x59D3;&#x540D;&#x66F4;&#x6539;&#x4E3A;&#x8D75;&#x516D;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StudentModel.update({ <span class="attr">studentId</span>: <span class="string">&apos;001&apos;</span> }, { <span class="attr">name</span>: <span class="string">&apos;&#x8D75;&#x516D;&apos;</span> })</div></pre></td></tr></table></figure>
+<h3 id="&#x67E5;&#x8BE2;&#x6587;&#x6863;"><a href="#&#x67E5;&#x8BE2;&#x6587;&#x6863;" class="headerlink" title="&#x67E5;&#x8BE2;&#x6587;&#x6863;"></a>&#x67E5;&#x8BE2;&#x6587;&#x6863;</h3><ul>
+<li>find()</li>
+</ul>
+<p>&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x5B66;&#x751F;&#x4FE1;&#x606F;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StudentModel.find();</div></pre></td></tr></table></figure>
+<p>&#x67E5;&#x8BE2;&#x67D0;&#x95E8;&#x8BFE;&#x7A0B;&#x5F97;&#x5206;&#x9AD8;&#x4E8E;&#x67D0;&#x5206;&#x6570;&#x7684;&#x5B66;&#x751F;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StudentModel.find({</div><div class="line">    <span class="string">&apos;courses.courseName&apos;</span>: courseName,</div><div class="line">    <span class="string">&apos;courses.grade&apos;</span>: {</div><div class="line">        <span class="attr">$gte</span>: grade</div><div class="line">    }</div><div class="line">})</div></pre></td></tr></table></figure></p>
+<h2 id="&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;"><a href="#&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;" class="headerlink" title="&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;"></a>&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;</h2><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;schema&#x7ED9;model&#x6DFB;&#x52A0;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x4EE5;&#x53CA;&#x793A;&#x4F8B;&#x65B9;&#x6CD5;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;&#x3002;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * &#x6DFB;&#x52A0;&#x5B66;&#x751F;</div><div class="line"> */</div><div class="line">schema.statics.addStudent = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">studentInfo = {}</span>) </span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">this</span>.create(studentInfo);</div><div class="line">}</div><div class="line"><span class="comment">/**</span></div><div class="line"> * &#x83B7;&#x53D6;&#x5E74;&#x9F84;&#x548C;&#x81EA;&#x5DF1;&#x76F8;&#x7B49;&#x7684;&#x5B66;&#x751F;</div><div class="line"> */</div><div class="line">schema.methods.findSameAge = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">this</span>.model(<span class="string">&apos;StudentModel&apos;</span>).find({ <span class="attr">age</span>: <span class="keyword">this</span>.age });</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// &#x4F7F;&#x7528;&#x793A;&#x4F8B;</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> student = <span class="keyword">new</span> StudentModel({ <span class="attr">studentId</span>: <span class="string">&apos;003&apos;</span>, <span class="attr">name</span>: <span class="string">&apos;&#x738B;&#x4E94;&apos;</span>, <span class="attr">age</span>: <span class="number">20</span>});</div><div class="line">student.save();</div><div class="line"></div><div class="line">StudentModel.addStudent({ <span class="attr">studentId</span>: <span class="string">&apos;004&apos;</span>, <span class="attr">name</span>: <span class="string">&apos;&#x8D75;&#x516D;&apos;</span>, <span class="attr">age</span>: <span class="number">20</span>});</div><div class="line">student.findSameAge();</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/NodeJS/" rel="tag"># NodeJS</a>
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/07/vue多行文本展开收起组件/" rel="next" title="vue多行文本展开收起组件">
+                <i class="fa fa-chevron-left"></i> vue多行文本展开收起组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Li Chuckie</p>
+              <div class="site-description motion-element" itemprop="description">略显文艺的工科男</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MongoDB"><span class="nav-number">1.</span> <span class="nav-text">安装MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动MongoDB"><span class="nav-number">2.</span> <span class="nav-text">启动MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NodeJS中操作MongoDB"><span class="nav-number">3.</span> <span class="nav-text">NodeJS中操作MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接数据库"><span class="nav-number">4.</span> <span class="nav-text">连接数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单连接"><span class="nav-number">4.1.</span> <span class="nav-text">简单连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听连接状态"><span class="nav-number">4.2.</span> <span class="nav-text">监听连接状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从一个实例出发"><span class="nav-number">5.</span> <span class="nav-text">从一个实例出发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求描述"><span class="nav-number">5.1.</span> <span class="nav-text">需求描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需求分析"><span class="nav-number">5.2.</span> <span class="nav-text">需求分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schema"><span class="nav-number">6.</span> <span class="nav-text">Schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model"><span class="nav-number">7.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改查"><span class="nav-number">8.</span> <span class="nav-text">增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新增文档"><span class="nav-number">8.1.</span> <span class="nav-text">新增文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文档"><span class="nav-number">8.2.</span> <span class="nav-text">删除文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改文档"><span class="nav-number">8.3.</span> <span class="nav-text">修改文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询文档"><span class="nav-number">8.4.</span> <span class="nav-text">查询文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义方法"><span class="nav-number">9.</span> <span class="nav-text">自定义方法</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Chuckie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.2.2</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
