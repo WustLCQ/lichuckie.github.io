@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x6700;&amp;#x8FD1;&amp;#x5728;&amp;#x770B;vue&amp;#x4E2D;nextTick&amp;#x65F6;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;nextTick&amp;#x53EA;&amp;#x662F;&amp;#x4E2A;&amp;#x666E;&amp;#x901A;&amp;#x7684;&amp;#x5F02;&amp;#x6B65;&amp;#x961F;&amp;#x52">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue异步更新队列与nextTick">
+<meta property="og:url" content="http://yoursite.com/2019/04/29/vue异步更新队列与nextTick/index.html">
+<meta property="og:site_name" content="桃李无言">
+<meta property="og:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x6700;&amp;#x8FD1;&amp;#x5728;&amp;#x770B;vue&amp;#x4E2D;nextTick&amp;#x65F6;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;nextTick&amp;#x53EA;&amp;#x662F;&amp;#x4E2A;&amp;#x666E;&amp;#x901A;&amp;#x7684;&amp;#x5F02;&amp;#x6B65;&amp;#x961F;&amp;#x52">
+<meta property="og:image" content="http://yoursite.com/2019/04/29/vue异步更新队列与nextTick/nextTick-docs.png">
+<meta property="og:updated_time" content="2019-04-29T10:44:25.112Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue异步更新队列与nextTick">
+<meta name="twitter:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x6700;&amp;#x8FD1;&amp;#x5728;&amp;#x770B;vue&amp;#x4E2D;nextTick&amp;#x65F6;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;nextTick&amp;#x53EA;&amp;#x662F;&amp;#x4E2A;&amp;#x666E;&amp;#x901A;&amp;#x7684;&amp;#x5F02;&amp;#x6B65;&amp;#x961F;&amp;#x52">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/29/vue异步更新队列与nextTick/nextTick-docs.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/29/vue异步更新队列与nextTick/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>vue异步更新队列与nextTick | 桃李无言</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">桃李无言</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/29/vue异步更新队列与nextTick/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Chuckie"/>
+      <meta itemprop="description" content="略显文艺的工科男"/>
+      <meta itemprop="image" content="/uploads/avatar.jpg"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桃李无言"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue异步更新队列与nextTick
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-29 17:30:17 / 修改时间：18:44:25" itemprop="dateCreated datePublished" datetime="2019-04-29T17:30:17+08:00">2019-04-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="&#x5199;&#x5728;&#x524D;&#x9762;"><a href="#&#x5199;&#x5728;&#x524D;&#x9762;" class="headerlink" title="&#x5199;&#x5728;&#x524D;&#x9762;"></a>&#x5199;&#x5728;&#x524D;&#x9762;</h2><p>&#x6700;&#x8FD1;&#x5728;&#x770B;vue&#x4E2D;nextTick&#x65F6;&#xFF0C;&#x53D1;&#x73B0;nextTick&#x53EA;&#x662F;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x5F02;&#x6B65;&#x961F;&#x5217;&#xFF0C;&#x9042;&#x4EA7;&#x751F;&#x597D;&#x5947;&#xFF0C;nextTick&#x662F;&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x5728;UI&#x66F4;&#x65B0;&#x6267;&#x884C;&#x7684;&#x5462;&#xFF1F;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x63A2;&#x7A76;&#x4E0B;&#x53BB;&#xFF0C;&#x6700;&#x540E;&#x53D1;&#x73B0;&#x81EA;&#x5DF1;&#x4E4B;&#x524D;&#x5BF9;nextTick&#x7684;&#x7406;&#x89E3;&#x6709;&#x504F;&#x5DEE;&#xFF0C;&#x4E8E;&#x662F;&#x603B;&#x7ED3;&#x4E86;&#x4E00;&#x4E0B;&#x3002;</p>
+<h2 id="&#x4F8B;&#x5B50;"><a href="#&#x4F8B;&#x5B50;" class="headerlink" title="&#x4F8B;&#x5B50;"></a>&#x4F8B;&#x5B50;</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">ref</span>=<span class="string">&quot;text&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;handleClick&quot;</span>&gt;</span>{{name}}<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> {</div><div class="line">    data() {</div><div class="line">        <span class="keyword">return</span> {</div><div class="line">            <span class="attr">name</span>: <span class="string">&apos;zhang&apos;</span></div><div class="line">        };</div><div class="line">    }</div><div class="line">    handleClick() {</div><div class="line">        <span class="keyword">this</span>.$nextTick(<span class="function"><span class="params">()</span> =&gt;</span> {</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.$refs.text.innerHTML);</div><div class="line">        });</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">&apos;wang&apos;</span>;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x9996;&#x5148;&#x601D;&#x8003;&#x5982;&#x4E0A;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x70B9;&#x51FB;&#x4E4B;&#x540E;&#x8F93;&#x51FA;&#x4EC0;&#x4E48;&#xFF1F;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7B54;&#x6848;&#x662F;&#x8F93;&#x51FA;<strong>wang</strong>&#xFF0C;&#x90A3;&#x4F60;&#x6709;&#x5FC5;&#x8981;&#x7EE7;&#x7EED;&#x770B;&#x4E0B;&#x53BB;&#x3002;</p>
+<h2 id="&#x7B54;&#x6848;"><a href="#&#x7B54;&#x6848;" class="headerlink" title="&#x7B54;&#x6848;"></a>&#x7B54;&#x6848;</h2><p>&#x4E0A;&#x9762;&#x8F93;&#x51FA;&#x7684;&#x662F;<strong>zhang</strong>&#xFF0C;&#x5373;&#x66F4;&#x65B0;&#x524D;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<p>&#x53EF;&#x80FD;&#x6709;&#x4E0D;&#x5C11;&#x540C;&#x5B66;&#x548C;&#x6211;&#x4E4B;&#x524D;&#x4E00;&#x6837;&#xFF0C;&#x8BA4;&#x4E3A;nextTick&#x6267;&#x884C;&#x662F;&#x5728;dom&#x4E4B;&#x540E;&#xFF0C;&#x83B7;&#x53D6;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#xFF0C;&#x6BD5;&#x7ADF;vue&#x6587;&#x6863;&#x4E2D;&#x90FD;&#x662F;&#x8FD9;&#x4E48;&#x5199;&#x7684;&#x3002;<br><img src="/2019/04/29/vue&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;&#x4E0E;nextTick/nextTick-docs.png" alt="NOOBS Files"><br>&#x5B98;&#x65B9;&#x6587;&#x6863;&#x5F53;&#x7136;&#x6CA1;&#x9519;&#xFF0C;&#x53EF;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;</p>
+<blockquote>
+<p>&#x5728;&#x4FEE;&#x6539;&#x6570;&#x636E;<strong>&#x4E4B;&#x540E;</strong>&#x7ACB;&#x5373;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x83B7;&#x53D6;&#x66F4;&#x65B0;&#x540E;&#x7684; DOM</p>
+</blockquote>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x5982;&#x679C;&#x4E0A;&#x6587;&#x4E2D;&#x7684;<code>this.name = &apos;wang&apos;</code>&#x662F;&#x5728;nextTick&#x4E4B;&#x524D;&#xFF0C;&#x90A3;&#x786E;&#x5B9E;&#x83B7;&#x53D6;&#x540E;&#x7684;dom&#xFF0C;&#x8F93;&#x51FA;wang&#x3002;&#x53EF;&#x4E0A;&#x6587;&#x4E2D;<code>this.name = &apos;wang&apos;</code>&#x5728;nextTick&#x4E4B;&#x540E;&#xFF0C;&#x90A3;&#x8F93;&#x51FA;&#x7684;&#x5C31;&#x662F;&#x66F4;&#x65B0;&#x524D;&#x7684;&#x6570;&#x636E;&#x3002;&#x8FD9;&#x91CC;&#x9762;&#x7684;&#x539F;&#x7406;&#xFF0C;&#x5C31;&#x662F;&#x672C;&#x6587;&#x9700;&#x8981;&#x8BF4;&#x660E;&#x7684;&#x4E86;&#x3002;</p>
+<h2 id="nextTick&#x5B9E;&#x73B0;&#x539F;&#x7406;"><a href="#nextTick&#x5B9E;&#x73B0;&#x539F;&#x7406;" class="headerlink" title="nextTick&#x5B9E;&#x73B0;&#x539F;&#x7406;"></a>nextTick&#x5B9E;&#x73B0;&#x539F;&#x7406;</h2><p>&#x5BF9;&#x4E8E;js&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x4EE5;&#x53CA;microtasks&#x3001;macrotasks&#x7B49;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#xFF0C;&#x7F51;&#x4E0A;&#x76F8;&#x5173;&#x6587;&#x7AE0;&#x5DF2;&#x7ECF;&#x5F88;&#x591A;&#x4E86;&#xFF0C;&#x672C;&#x6587;&#x4E0D;&#x518D;&#x8D58;&#x8A00;&#x3002;</p>
+<p>&#x4F17;&#x6240;&#x5468;&#x77E5;&#xFF0C;vue&#x4E2D;&#x7684;dom&#x662F;&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x7684;&#xFF0C;&#x8981;&#x83B7;&#x53D6;&#x5230;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;nextTick&#x65B9;&#x6CD5;&#x3002;&#x90A3;&#x4E48;&#xFF0C;&#x4F60;&#x662F;&#x5426;&#x601D;&#x8003;&#x8FC7;&#xFF0C;nextTick&#x662F;&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x5230;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#x7684;&#xFF1F;</p>
+<p>&#x8981;&#x63A2;&#x7A76;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x81EA;&#x7136;&#x5F97;&#x4ECE;vue&#x7684;&#x6E90;&#x7801;&#x4E2D;&#x6765;&#x3002;nextTick&#x6240;&#x5728;&#x7684;&#x6E90;&#x7801;&#x5F88;&#x597D;&#x627E;&#xFF0C;&#x5728;<code>src/core/util/next-tick.js</code>&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x603B;&#x5171;&#x4E5F;&#x53EA;&#x6709;&#x4E00;&#x767E;&#x591A;&#x884C;&#xFF0C;&#x4E3B;&#x8981;&#x5185;&#x5BB9;&#x662F;&#x4E00;&#x6BB5;<code>if...else...</code>&#x8BED;&#x53E5;&#x3002;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// The nextTick behavior leverages the microtask queue, which can be accessed</span></div><div class="line"><span class="comment">// via either native Promise.then or MutationObserver.</span></div><div class="line"><span class="comment">// MutationObserver has wider support, however it is seriously bugged in</span></div><div class="line"><span class="comment">// UIWebView in iOS &gt;= 9.3.3 when triggered in touch event handlers. It</span></div><div class="line"><span class="comment">// completely stops working after triggering a few times... so, if native</span></div><div class="line"><span class="comment">// Promise is available, we will use it:</span></div><div class="line"><span class="comment">/* istanbul ignore next, $flow-disable-line */</span></div><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">&apos;undefined&apos;</span> &amp;&amp; isNative(<span class="built_in">Promise</span>)) {</div><div class="line">} <span class="keyword">else</span> <span class="keyword">if</span> (!isIE &amp;&amp; <span class="keyword">typeof</span> MutationObserver !== <span class="string">&apos;undefined&apos;</span> &amp;&amp; (</div><div class="line">  isNative(MutationObserver) ||</div><div class="line">  <span class="comment">// PhantomJS and iOS 7.x</span></div><div class="line">  MutationObserver.toString() === <span class="string">&apos;[object MutationObserverConstructor]&apos;</span></div><div class="line">)) {</div><div class="line">  <span class="comment">// Use MutationObserver where native Promise is not available,</span></div><div class="line">  <span class="comment">// e.g. PhantomJS, iOS7, Android 4.4</span></div><div class="line">  <span class="comment">// (#6466 MutationObserver is unreliable in IE11)</span></div><div class="line">} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> setImmediate !== <span class="string">&apos;undefined&apos;</span> &amp;&amp; isNative(setImmediate)) {</div><div class="line">  <span class="comment">// Fallback to setImmediate.</span></div><div class="line">  <span class="comment">// Techinically it leverages the (macro) task queue,</span></div><div class="line">  <span class="comment">// but it is still a better choice than setTimeout.</span></div><div class="line">} <span class="keyword">else</span> {</div><div class="line">  <span class="comment">// Fallback to setTimeout.</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<p><code>if...else...</code>&#x5F53;&#x4E2D;&#x5177;&#x4F53;&#x5185;&#x5BB9;&#x7701;&#x7565;&#x4E86;&#xFF0C;&#x53EA;&#x770B;&#x8FD9;&#x51E0;&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;&#x5F88;&#x660E;&#x663E;&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x6BB5;&#x964D;&#x7EA7;&#x7B56;&#x7565;&#x3002;</p>
+<p>&#x9996;&#x9009;&#x662F;<code>Promise</code>&#xFF0C;&#x5982;&#x679C;&#x5BBF;&#x4E3B;&#x73AF;&#x5883;&#x652F;&#x6301;<code>Promise</code>&#xFF0C;&#x76F4;&#x63A5;&#x7528;<code>Promise</code>&#x5B9E;&#x73B0;nextTick&#x3002;&#x5BF9;&#x4E8E;&#x4E0D;&#x652F;&#x6301;<code>Promise</code>&#x7684;&#x73AF;&#x5883;&#xFF0C;&#x5224;&#x65AD;&#x662F;&#x5426;&#x652F;&#x6301;<code>MutationObserver</code>&#xFF0C;&#x5982;&#x679C;&#x652F;&#x6301;&#xFF0C;&#x5219;&#x4F7F;&#x7528;<code>MutationObserver</code>&#x5B9E;&#x73B0;nextTick&#x3002;&#x5982;&#x679C;&#x90FD;&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x4F9D;&#x6B21;&#x964D;&#x7EA7;&#xFF0C;&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;<code>setImmediate</code>&#x3001;<code>setTimeout</code>&#x3002;</p>
+<p>nextTick&#x6E90;&#x7801;&#x7684;&#x4E3B;&#x8981;&#x903B;&#x8F91;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x6838;&#x5FC3;&#x601D;&#x8DEF;&#x5C31;&#x662F;&#x5C06;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x653E;&#x5230;&#x5F02;&#x6B65;&#x961F;&#x5217;&#x4E2D;&#xFF0C;microtasks&#x4E0D;&#x884C;&#x5C31;macrotasks&#x3002;&#x53EF;UI&#x66F4;&#x65B0;&#x5462;&#xFF1F;&#x4E0D;&#x662F;&#x8BF4;nextTick&#x83B7;&#x53D6;&#x5230;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#x5417;&#xFF1F;&#x8FD9;&#x4EC5;&#x4EC5;&#x662F;&#x653E;&#x5728;&#x4E86;&#x5F02;&#x6B65;&#x961F;&#x5217;&#x4E2D;&#xFF0C;&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#xFF1F;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;nextTick&#x786E;&#x5B9E;&#x6CA1;&#x4FDD;&#x8BC1;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#x3002;UI&#x66F4;&#x65B0;&#x548C;nextTick&#x4E2D;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x662F;&#x52A0;&#x5165;&#x5230;&#x4E86;&#x540C;&#x4E00;&#x4E2A;&#x5F02;&#x6B65;&#x961F;&#x5217;&#x5F53;&#x4E2D;&#xFF0C;&#x4F18;&#x5148;&#x7EA7;&#x76F8;&#x540C;&#xFF0C;&#x6240;&#x4EE5;&#x51FA;&#x73B0;&#x4E86;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x6570;&#x636E;&#x6539;&#x53D8;&#x5728;nextTick&#x4E4B;&#x524D;&#xFF0C;&#x5219;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x540E;&#x7684;dom&#xFF0C;&#x53CD;&#x4E4B;&#xFF0C;&#x6570;&#x636E;&#x6539;&#x53D8;&#x53D1;&#x751F;&#x5728;nextTick&#x4E4B;&#x540E;&#xFF0C;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x662F;&#x66F4;&#x65B0;&#x524D;&#x7684;dom&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;<code>MutationObserver</code>&#x867D;&#x7136;&#x53EF;&#x4EE5;&#x76D1;&#x89C6;dom&#x7684;&#x66F4;&#x6539;&#xFF0C;&#x4F46;vue&#x4E2D;&#x5E76;&#x6CA1;&#x7528;&#x5230;&#x8FD9;&#x4E00;&#x70B9;&#xFF0C;&#x522B;&#x88AB;&#x8BEF;&#x5BFC;&#x4E86;&#x3002;vue&#x4E2D;&#x4EC5;&#x4EC5;&#x662F;&#x7528;&#x5230;&#x4E86;<code>MutationObserver</code>&#x521B;&#x5EFA;microtasks&#x7684;&#x80FD;&#x529B;&#x3002;</p>
+<h2 id="&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;"><a href="#&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;" class="headerlink" title="&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;"></a>&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;</h2><p>&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;vue&#x4E2D;&#x7684;&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;&#x4E5F;&#x662F;&#x901A;&#x8FC7;nextTick&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<p>&#x66F4;&#x65B0;vue&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x4F1A;&#x6267;&#x884C;Watcher&#x5BF9;&#x8C61;&#x7684;update&#x65B9;&#x6CD5;&#xFF0C;&#x6E90;&#x7801;&#x5982;&#x4E0B;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">update () {</div><div class="line">  <span class="comment">/* istanbul ignore else */</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.lazy) {</div><div class="line">    <span class="keyword">this</span>.dirty = <span class="literal">true</span></div><div class="line">  } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.sync) {</div><div class="line">    <span class="keyword">this</span>.run()</div><div class="line">  } <span class="keyword">else</span> {</div><div class="line">    queueWatcher(<span class="keyword">this</span>)</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x5728;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x89C2;&#x5BDF;&#x8005;&#x5BF9;&#x8C61;&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#xFF0C;&#x8C03;&#x7528;<code>queueWatcher</code>&#x51FD;&#x6570;&#x52A0;&#x5165;&#x5F02;&#x6B65;&#x66F4;&#x65B0;&#x961F;&#x5217;&#x3002;<code>queueWatcher</code>&#x51FD;&#x6570;&#x5728;<code>src/core/observer/scheduler.js</code>&#x4E2D;&#xFF0C;&#x6E90;&#x7801;&#x5982;&#x4E0B;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Push a watcher into the watcher queue.</div><div class="line"> * Jobs with duplicate IDs will be skipped unless it&apos;s</div><div class="line"> * pushed when the queue is being flushed.</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">queueWatcher</span> (<span class="params">watcher: Watcher</span>) </span>{</div><div class="line">  <span class="keyword">const</span> id = watcher.id</div><div class="line">  <span class="keyword">if</span> (has[id] == <span class="literal">null</span>) {</div><div class="line">    has[id] = <span class="literal">true</span></div><div class="line">    <span class="keyword">if</span> (!flushing) {</div><div class="line">      queue.push(watcher)</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">      <span class="comment">// if already flushing, splice the watcher based on its id</span></div><div class="line">      <span class="comment">// if already past its id, it will be run next immediately.</span></div><div class="line">      <span class="keyword">let</span> i = queue.length - <span class="number">1</span></div><div class="line">      <span class="keyword">while</span> (i &gt; index &amp;&amp; queue[i].id &gt; watcher.id) {</div><div class="line">        i--</div><div class="line">      }</div><div class="line">      queue.splice(i + <span class="number">1</span>, <span class="number">0</span>, watcher)</div><div class="line">    }</div><div class="line">    <span class="comment">// queue the flush</span></div><div class="line">    <span class="keyword">if</span> (!waiting) {</div><div class="line">      waiting = <span class="literal">true</span></div><div class="line"></div><div class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">&apos;production&apos;</span> &amp;&amp; !config.async) {</div><div class="line">        flushSchedulerQueue()</div><div class="line">        <span class="keyword">return</span></div><div class="line">      }</div><div class="line">      nextTick(flushSchedulerQueue)</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><code>queueWatcher</code>&#x51FD;&#x6570;&#x4E2D;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x8FB9;&#x754C;&#x5904;&#x7406;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x6682;&#x65F6;&#x4E0D;&#x7528;&#x53BB;&#x5173;&#x5FC3;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x6700;&#x7EC8;&#x5C06;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x52A0;&#x5165;&#x5F02;&#x6B65;&#x961F;&#x5217;&#x7684;&#x5C31;&#x662F;<code>nextTick(flushSchedulerQueue)</code>&#x8FD9;&#x4E00;&#x53E5;&#x3002;</p>
+<p>&#x8FD9;&#x4E0B;&#x5B50;&#x6E05;&#x695A;&#x4E86;&#xFF0C;vue&#x4E2D;&#x5BF9;UI&#x7684;&#x66F4;&#x65B0;&#xFF0C;&#x786E;&#x5B9E;&#x662F;&#x4F7F;&#x7528;nextTick&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;nextTick&#x4E2D;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5E76;&#x975E;&#x4E00;&#x5B9A;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x5C31;&#x662F;&#x6240;&#x6709;&#x66F4;&#x65B0;&#x5B8C;&#x6210;&#x7684;dom&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x770B;nextTick&#x5230;&#x5E95;&#x5199;&#x5728;&#x54EA;&#x91CC;&#x3002;</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/NodeJS+MongoDB入门/" rel="next" title="NodeJS+MongoDB入门">
+                <i class="fa fa-chevron-left"></i> NodeJS+MongoDB入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Li Chuckie"/>
+            
+              <p class="site-author-name" itemprop="name">Li Chuckie</p>
+              <div class="site-description motion-element" itemprop="description">略显文艺的工科男</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#答案"><span class="nav-number">3.</span> <span class="nav-text">答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nextTick实现原理"><span class="nav-number">4.</span> <span class="nav-text">nextTick实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步更新队列"><span class="nav-number">5.</span> <span class="nav-text">异步更新队列</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Chuckie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.2.2</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
