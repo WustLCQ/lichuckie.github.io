@@ -96,23 +96,50 @@
 
 
 
-  <meta name="description" content="ES6&amp;#x4E2D;&amp;#x5F15;&amp;#x5165;&amp;#x4E86;let&amp;#x548C;const&amp;#x5173;&amp;#x952E;&amp;#x5B57;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x5B9E;&amp;#x73B0;&amp;#x5757;&amp;#x4F5C;&amp;#x7528;&amp;#x57DF;&amp;#x4E86;&amp;#x3002;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5757;&amp;#x4F5C;&amp;#x75">
+  <meta name="description" content="null&amp;#x662F;object&amp;#x5417;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;JavaScript&amp;#x4E2D;&amp;#x6709;6&amp;#x79CD;&amp;#x57FA;&amp;#x7840;&amp;#x7C7B;&amp;#x578B;&amp;#xFF1A;
+
+string
+number
+boolean
+null
+undefined
+object
+
+&amp;#x8FD9;6&amp;#x">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用">
-<meta property="og:url" content="http://yoursite.com/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/index.html">
+<meta property="og:title" content="《你不知道的JavaScript》读书笔记——对象那些事">
+<meta property="og:url" content="http://yoursite.com/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/index.html">
 <meta property="og:site_name" content="桃李无言">
-<meta property="og:description" content="ES6&amp;#x4E2D;&amp;#x5F15;&amp;#x5165;&amp;#x4E86;let&amp;#x548C;const&amp;#x5173;&amp;#x952E;&amp;#x5B57;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x5B9E;&amp;#x73B0;&amp;#x5757;&amp;#x4F5C;&amp;#x7528;&amp;#x57DF;&amp;#x4E86;&amp;#x3002;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5757;&amp;#x4F5C;&amp;#x75">
-<meta property="og:updated_time" content="2020-05-26T10:53:01.933Z">
+<meta property="og:description" content="null&amp;#x662F;object&amp;#x5417;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;JavaScript&amp;#x4E2D;&amp;#x6709;6&amp;#x79CD;&amp;#x57FA;&amp;#x7840;&amp;#x7C7B;&amp;#x578B;&amp;#xFF1A;
+
+string
+number
+boolean
+null
+undefined
+object
+
+&amp;#x8FD9;6&amp;#x">
+<meta property="og:updated_time" content="2020-06-10T08:28:20.539Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用">
-<meta name="twitter:description" content="ES6&amp;#x4E2D;&amp;#x5F15;&amp;#x5165;&amp;#x4E86;let&amp;#x548C;const&amp;#x5173;&amp;#x952E;&amp;#x5B57;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x5B9E;&amp;#x73B0;&amp;#x5757;&amp;#x4F5C;&amp;#x7528;&amp;#x57DF;&amp;#x4E86;&amp;#x3002;&amp;#x5BF9;&amp;#x4E8E;&amp;#x5757;&amp;#x4F5C;&amp;#x75">
+<meta name="twitter:title" content="《你不知道的JavaScript》读书笔记——对象那些事">
+<meta name="twitter:description" content="null&amp;#x662F;object&amp;#x5417;&amp;#x4F17;&amp;#x6240;&amp;#x5468;&amp;#x77E5;&amp;#xFF0C;JavaScript&amp;#x4E2D;&amp;#x6709;6&amp;#x79CD;&amp;#x57FA;&amp;#x7840;&amp;#x7C7B;&amp;#x578B;&amp;#xFF1A;
+
+string
+number
+boolean
+null
+undefined
+object
+
+&amp;#x8FD9;6&amp;#x">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/"/>
 
 
 
@@ -122,7 +149,7 @@
   };
 </script>
 
-  <title>《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用 | 桃李无言</title>
+  <title>《你不知道的JavaScript》读书笔记——对象那些事 | 桃李无言</title>
   
 
 
@@ -321,7 +348,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/"/>
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Li Chuckie"/>
@@ -338,7 +365,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用
+          <h1 class="post-title" itemprop="name headline">《你不知道的JavaScript》读书笔记——对象那些事
 
               
             
@@ -364,7 +391,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 18:48:55 / 修改时间：18:53:01" itemprop="dateCreated datePublished" datetime="2020-05-26T18:48:55+08:00">2020-05-26</time>
+              <time title="创建时间：2020-06-10 15:55:44 / 修改时间：16:28:20" itemprop="dateCreated datePublished" datetime="2020-06-10T15:55:44+08:00">2020-06-10</time>
             
 
             
@@ -405,8 +432,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/" itemprop="commentCount"></span>
+                <a href="/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -434,12 +461,24 @@
       
 
       
-        <p>ES6&#x4E2D;&#x5F15;&#x5165;&#x4E86;<code>let</code>&#x548C;<code>const</code>&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5757;&#x4F5C;&#x7528;&#x57DF;&#x4E86;&#x3002;&#x5BF9;&#x4E8E;&#x5757;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x4F18;&#x52BF;&#xFF0C;&#x4E00;&#x76F4;&#x53EA;&#x77E5;&#x9053;&#x80FD;&#x591F;&#x4E0D;&#x6C61;&#x67D3;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x9605;&#x8BFB;&#x300A;&#x4F60;&#x4E0D;&#x77E5;&#x9053;&#x7684;JavaScript&#x300B;&#x65F6;&#x624D;&#x53D1;&#x73B0;&#x5728;&#x5783;&#x573E;&#x56DE;&#x6536;&#x4E2D;&#x4E5F;&#x80FD;&#x6709;&#x5F88;&#x5927;&#x4F18;&#x52BF;&#x3002;</p>
-<p>&#x8003;&#x8651;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>{</div><div class="line"><span class="comment">// &#x5728;&#x8FD9;&#x91CC;&#x505A;&#x70B9;&#x6709;&#x8DA3;&#x7684;&#x4E8B;&#x60C5;</span></div><div class="line">}</div><div class="line"><span class="keyword">var</span> someReallyBigData = { .. };</div><div class="line">process( someReallyBigData );</div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById( <span class="string">&quot;my_button&quot;</span> );</div><div class="line">      btn.addEventListener( <span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> <span class="title">click</span>(<span class="params">evt</span>) </span>{</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">&quot;button clicked&quot;</span>);</div><div class="line">}, <span class="comment">/*capturingPhase=*/</span><span class="literal">false</span> );</div></pre></td></tr></table></figure>
-<p>click&#x51FD;&#x6570;&#x7684;&#x70B9;&#x51FB;&#x56DE;&#x8C03;&#x5E76;&#x4E0D;&#x9700;&#x8981;<code>someReallyBigData</code>&#x53D8;&#x91CF;&#x3002;&#x7406;&#x8BBA;&#x4E0A;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5F53;<code>process(..)</code>&#x6267;&#x884C;&#x540E;&#xFF0C;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x5360;&#x7528;&#x5927;&#x91CF;&#x7A7A;&#x95F4;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5C31;&#x53EF;&#x4EE5;&#x88AB;&#x5783;&#x573E;&#x56DE;&#x6536;&#x4E86;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x7531;&#x4E8E;<code>click</code>&#x51FD;&#x6570;&#x5F62;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x8986;&#x76D6;&#x6574;&#x4E2A;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x95ED;&#x5305;&#xFF0C;JavaScript&#x5F15;&#x64CE;&#x6781;&#x6709;&#x53EF;&#x80FD;&#x4F9D;&#x7136;&#x4FDD;&#x5B58;&#x7740;&#x8FD9;&#x4E2A;&#x7ED3;&#x6784;(&#x53D6;&#x51B3;&#x4E8E;&#x5177;&#x4F53; &#x5B9E;&#x73B0;)&#x3002;</p>
-<p>&#x5757;&#x4F5C;&#x7528;&#x57DF;&#x53EF;&#x4EE5;&#x6253;&#x6D88;&#x8FD9;&#x79CD;&#x987E;&#x8651;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x5F15;&#x64CE;&#x6E05;&#x695A;&#x5730;&#x77E5;&#x9053;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#x7EE7;&#x7EED;&#x4FDD;&#x5B58;<code>someReallyBigData</code>&#x4E86;:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>{</div><div class="line"><span class="comment">// &#x5728;&#x8FD9;&#x91CC;&#x505A;&#x70B9;&#x6709;&#x8DA3;&#x7684;&#x4E8B;&#x60C5;</span></div><div class="line">}</div><div class="line"><span class="comment">// &#x5728;&#x8FD9;&#x4E2A;&#x5757;&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#x5185;&#x5BB9;&#x53EF;&#x4EE5;&#x9500;&#x6BC1;&#x4E86;! {</span></div><div class="line"><span class="keyword">let</span> someReallyBigData = { .. }; process( someReallyBigData );</div><div class="line">}</div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById( <span class="string">&quot;my_button&quot;</span> );</div><div class="line">     btn.addEventListener( <span class="string">&quot;click&quot;</span>, <span class="function"><span class="keyword">function</span> <span class="title">click</span>(<span class="params">evt</span>)</span>{</div><div class="line">         <span class="built_in">console</span>.log(<span class="string">&quot;button clicked&quot;</span>);</div><div class="line">}, <span class="comment">/*capturingPhase=*/</span><span class="literal">false</span> );</div></pre></td></tr></table></figure></p>
-
+        <h2 id="null&#x662F;object&#x5417;"><a href="#null&#x662F;object&#x5417;" class="headerlink" title="null&#x662F;object&#x5417;"></a>null&#x662F;object&#x5417;</h2><p>&#x4F17;&#x6240;&#x5468;&#x77E5;&#xFF0C;JavaScript&#x4E2D;&#x6709;6&#x79CD;&#x57FA;&#x7840;&#x7C7B;&#x578B;&#xFF1A;</p>
+<ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>null</li>
+<li>undefined</li>
+<li>object</li>
+</ul>
+<p>&#x8FD9;6&#x79CD;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x672C;&#x8EAB;&#x5E76;&#x4E0D;&#x662F;&#x5BF9;&#x8C61;&#xFF0C;&#x4F46;&#x5728;&#x6267;&#x884C;<code>typeof null</code>&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x8FD4;&#x56DE;<code>object</code>&#xFF0C;&#x4EE5;&#x81F3;&#x4E8E;&#x521D;&#x5B66;&#x8005;&#x65F6;&#x5E38;&#x5C06;null&#x5F53;&#x4F5C;&#x4E86;&#x4E00;&#x79CD;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#x3002;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;null&#x672C;&#x8EAB;&#x662F;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#xFF0C;<code>typeof null === &apos;object&apos;</code>&#x8FD9;&#x662F;&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#x7684;bug&#x3002;</p>
+<p>&#x5728;JavaScript&#x4E2D;&#xFF0C;&#x4E8C;&#x8FDB;&#x5236;&#x524D;&#x4E09;&#x4F4D;&#x90FD;&#x4E3A;0&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x5224;&#x65AD;&#x4E3A;object&#x7C7B;&#x578B;&#xFF0C;&#x7136;&#x800C;null&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x5F62;&#x5F0F;&#x5168;&#x662F;0&#xFF0C;&#x81EA;&#x7136;&#x524D;&#x4E09;&#x4F4D;&#x4E5F;&#x662F;0&#xFF0C;&#x6240;&#x4EE5;&#x6267;&#x884C;typeof&#x7684;&#x65F6;&#x5019;&#x8FD4;&#x56DE;&#x4E86;object.</p>
+<h2 id="&#x5B57;&#x9762;&#x91CF;&#x548C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x751F;&#x6210;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x533A;&#x522B;&#x5417;"><a href="#&#x5B57;&#x9762;&#x91CF;&#x548C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x751F;&#x6210;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x533A;&#x522B;&#x5417;" class="headerlink" title="&#x5B57;&#x9762;&#x91CF;&#x548C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x751F;&#x6210;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x533A;&#x522B;&#x5417;"></a>&#x5B57;&#x9762;&#x91CF;&#x548C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x751F;&#x6210;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x533A;&#x522B;&#x5417;</h2><p>&#x8003;&#x8651;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> strPrimitive = <span class="string">&quot;I am a string&quot;</span>;</div><div class="line"><span class="keyword">typeof</span> strPrimitive; <span class="comment">// &quot;string&quot;</span></div><div class="line">strPrimitive <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">// false</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> strObject = <span class="keyword">new</span> <span class="built_in">String</span>( <span class="string">&quot;I am a string&quot;</span> ); <span class="keyword">typeof</span> strObject; <span class="comment">// &quot;object&quot;</span></div><div class="line">strObject <span class="keyword">instanceof</span> <span class="built_in">String</span>; <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// &#x68C0;&#x67E5; sub-type &#x5BF9;&#x8C61;</span></div><div class="line"><span class="built_in">Object</span>.prototype.toString.call( strObject ); <span class="comment">// [object String]</span></div></pre></td></tr></table></figure>
+<p>&#x5BF9;&#x4E8E;&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4E24;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;<code>strPrimitive</code>&#x548C;<code>strObject</code>&#xFF0C;&#x5206;&#x522B;&#x901A;&#x8FC7;&#x5B57;&#x9762;&#x91CF;&#x548C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x65B9;&#x5F0F;&#x751F;&#x6210;&#x3002;</p>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x7ED3;&#x679C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;<code>strPrimitive</code>&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#xFF0C;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x548C;<code>strObject</code>&#x6267;&#x884C;<code>typeof</code>&#x7684;&#x7ED3;&#x679C;&#x5E76;&#x4E0D;&#x76F8;&#x540C;&#x3002;</p>
+<p>&#x5728;&#x5FC5;&#x8981;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8BED;&#x8A00;&#x4F1A;&#x81EA;&#x52A8;&#x628A;&#x5B57;&#x7B26;&#x4E32;&#x5B57;&#x9762;&#x91CF;&#x8F6C;&#x6362;&#x6210;&#x4E00;&#x4E2A;String&#x5BF9;&#x8C61;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;&#x5B57;&#x7B26;&#x4E32;&#x5B57;&#x9762;&#x91CF;&#x4E0A;&#x8BBF;&#x95EE;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
+<h2 id="&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;&#x540D;&#x6C38;&#x8FDC;&#x662F;&#x5B57;&#x7B26;&#x4E32;"><a href="#&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;&#x540D;&#x6C38;&#x8FDC;&#x662F;&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;&#x540D;&#x6C38;&#x8FDC;&#x662F;&#x5B57;&#x7B26;&#x4E32;"></a>&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;&#x540D;&#x6C38;&#x8FDC;&#x662F;&#x5B57;&#x7B26;&#x4E32;</h2><p>&#x5728;&#x5BF9;&#x8C61;&#x4E2D;&#xFF0C;&#x5C5E;&#x6027;&#x540D;&#x6C38;&#x8FDC;&#x90FD;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;string(&#x5B57;&#x9762;&#x91CF;)&#x4EE5;&#x5916;&#x7684;&#x5176;&#x4ED6;&#x503C;&#x4F5C;&#x4E3A;&#x5C5E;&#x6027;&#x540D;&#xFF0C;&#x90A3;&#x5B83;&#x9996;&#x5148;&#x4F1A;&#x88AB;&#x8F6C;&#x6362;&#x4E3A;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5373;&#x4F7F;&#x662F;&#x6570;&#x5B57;&#x4E5F;&#x4E0D;&#x4F8B;&#x5916;&#xFF0C;&#x867D;&#x7136;&#x5728;&#x6570;&#x7EC4;&#x4E0B;&#x6807;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x7684;&#x786E;&#x662F;&#x6570;&#x5B57;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x5BF9;&#x8C61;&#x5C5E;&#x6027;&#x540D;&#x4E2D;&#x6570;&#x5B57;&#x4F1A;&#x88AB;&#x8F6C;&#x6362;&#x6210;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x5FC3;&#x4E0D;&#x8981;&#x641E;&#x6DF7;&#x5BF9;&#x8C61;&#x548C;&#x6570;&#x7EC4;&#x4E2D;&#x6570;&#x5B57;&#x7684;&#x7528;&#x6CD5;&#xFF1A;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myObject = { };</div><div class="line">myObject[<span class="literal">true</span>] = <span class="string">&quot;foo&quot;</span>;</div><div class="line">myObject[<span class="number">3</span>] = <span class="string">&quot;bar&quot;</span>;</div><div class="line">myObject[myObject] = <span class="string">&quot;baz&quot;</span>;</div><div class="line"></div><div class="line">myObject[<span class="string">&quot;true&quot;</span>]; <span class="comment">// &quot;foo&quot;</span></div><div class="line">myObject[<span class="string">&quot;3&quot;</span>]; <span class="comment">// &quot;bar&quot;</span></div><div class="line">myObject[<span class="string">&quot;[object Object]&quot;</span>]; <span class="comment">// &quot;baz&quot;</span></div></pre></td></tr></table></figure>
       
     </div>
 
@@ -499,7 +538,7 @@
           
             <a href="/tags/你不知道的JavaScript/" rel="tag"># 你不知道的JavaScript</a>
           
-            <a href="/tags/作用域/" rel="tag"># 作用域</a>
+            <a href="/tags/对象/" rel="tag"># 对象</a>
           
         </div>
       
@@ -512,8 +551,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/26/《你不知道的JavaScript》读书笔记——欺骗词法作用域/" rel="next" title="《你不知道的JavaScript》读书笔记——欺骗词法作用域">
-                <i class="fa fa-chevron-left"></i> 《你不知道的JavaScript》读书笔记——欺骗词法作用域
+              <a href="/2020/05/26/《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用/" rel="next" title="《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用">
+                <i class="fa fa-chevron-left"></i> 《你不知道的JavaScript》读书笔记——块作用域在垃圾回收中的运用
               </a>
             
           </div>
@@ -521,10 +560,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/06/10/《你不知道的JavaScript》读书笔记——基础类型与对象类型/" rel="prev" title="《你不知道的JavaScript》读书笔记——对象那些事">
-                《你不知道的JavaScript》读书笔记——对象那些事 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -572,8 +607,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -687,6 +731,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null是object吗"><span class="nav-number">1.</span> <span class="nav-text">null是object吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字面量和构造函数生成的基本类型有区别吗"><span class="nav-number">2.</span> <span class="nav-text">字面量和构造函数生成的基本类型有区别吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的属性名永远是字符串"><span class="nav-number">3.</span> <span class="nav-text">对象的属性名永远是字符串</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
