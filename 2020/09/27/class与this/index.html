@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x5728;vue3&amp;#x51FA;&amp;#x6765;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;vue&amp;#x4E0E;ts&amp;#x7ED3;&amp;#x5408;&amp;#x7684;&amp;#x4E00;&amp;#x76F4;&amp;#x4E0D;&amp;#x7B97;&amp;#x592A;&amp;#x597D;&amp;#x3002;&amp;#x76EE;&amp;#x524D;vue+ts&amp;#x7684;&amp;#x9879;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="class与this">
+<meta property="og:url" content="http://yoursite.com/2020/09/27/class与this/index.html">
+<meta property="og:site_name" content="桃李无言">
+<meta property="og:description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x5728;vue3&amp;#x51FA;&amp;#x6765;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;vue&amp;#x4E0E;ts&amp;#x7ED3;&amp;#x5408;&amp;#x7684;&amp;#x4E00;&amp;#x76F4;&amp;#x4E0D;&amp;#x7B97;&amp;#x592A;&amp;#x597D;&amp;#x3002;&amp;#x76EE;&amp;#x524D;vue+ts&amp;#x7684;&amp;#x9879;&amp;">
+<meta property="og:image" content="http://yoursite.com/2020/09/27/class与this/普通方法.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/27/class与this/箭头函数.png">
+<meta property="og:updated_time" content="2020-09-28T10:04:49.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="class与this">
+<meta name="twitter:description" content="&amp;#x5F15;&amp;#x5B50;&amp;#x5728;vue3&amp;#x51FA;&amp;#x6765;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;vue&amp;#x4E0E;ts&amp;#x7ED3;&amp;#x5408;&amp;#x7684;&amp;#x4E00;&amp;#x76F4;&amp;#x4E0D;&amp;#x7B97;&amp;#x592A;&amp;#x597D;&amp;#x3002;&amp;#x76EE;&amp;#x524D;vue+ts&amp;#x7684;&amp;#x9879;&amp;">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/27/class与this/普通方法.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/27/class与this/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>class与this | 桃李无言</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">桃李无言</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/27/class与this/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Chuckie"/>
+      <meta itemprop="description" content="略显文艺的工科男"/>
+      <meta itemprop="image" content="/uploads/avatar.jpg"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桃李无言"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">class与this
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-09-27 18:23:34" itemprop="dateCreated datePublished" datetime="2020-09-27T18:23:34+08:00">2020-09-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-09-28 18:04:49" itemprop="dateModified" datetime="2020-09-28T18:04:49+08:00">2020-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/09/27/class与this/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/27/class与this/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x5728;vue3&#x51FA;&#x6765;&#x4E4B;&#x524D;&#xFF0C;vue&#x4E0E;ts&#x7ED3;&#x5408;&#x7684;&#x4E00;&#x76F4;&#x4E0D;&#x7B97;&#x592A;&#x597D;&#x3002;&#x76EE;&#x524D;vue+ts&#x7684;&#x9879;&#x76EE;&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x662F;&#x4F7F;&#x7528;vue class component + &#x88C5;&#x9970;&#x5668;&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x4E4B;&#x524D;&#x5E76;&#x672A;&#x5173;&#x6CE8;&#x8FC7;vue-class-component&#x4E2D;<code>@Component</code>&#x88C5;&#x9970;&#x5668;&#x662F;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x76F4;&#x5230;&#x9047;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x5173;&#x4E8E;this&#x6307;&#x5411;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<h2 id="&#x95EE;&#x9898;"><a href="#&#x95EE;&#x9898;" class="headerlink" title="&#x95EE;&#x9898;"></a>&#x95EE;&#x9898;</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Vue, Component } from <span class="string">&apos;vue-property-decorator&apos;</span>;</div><div class="line"></div><div class="line">@Component</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> People extends Vue{</div><div class="line">    name = <span class="string">&apos;Tom&apos;</span>;</div><div class="line"></div><div class="line">    sayName1() {</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x6CE8;&#x610F;&#xFF0C;&#x6B64;&#x5904;&#x901A;&#x8FC7;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5B9A;&#x4E49;</span></div><div class="line">    sayName2 = () =&gt; {</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    }</div><div class="line"></div><div class="line">    say() {</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">&apos;Jack&apos;</span>;</div><div class="line">        <span class="keyword">this</span>.sayName1(); <span class="comment">// &#x8F93;&#x51FA;&#x4EC0;&#x4E48;&#xFF1F;</span></div><div class="line">        <span class="keyword">this</span>.sayName2(); <span class="comment">// &#x8F93;&#x51FA;&#x4EC0;&#x4E48;&#xFF1F;</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x89C9;&#x5F97;<code>sayName1</code>&#x4E0E;<code>sayName2</code>&#x90FD;&#x8F93;&#x51FA;<code>Tom</code>&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x4F1A;&#x89C9;&#x5F97;<code>sayName1</code>&#x8F93;&#x51FA;<code>Tom</code>&#xFF0C;<code>sayName2</code>&#x8F93;&#x51FA;<code>undefined</code>&#x3002;</p>
+<p>&#x5B9E;&#x9645;&#x4E0A;&#x8FD9;&#x4E24;&#x79CD;&#x90FD;&#x4E0D;&#x5BF9;&#xFF0C;&#x8FD0;&#x884C;&#x4E4B;&#x540E;&#xFF0C;<code>sayName1</code>&#x8F93;&#x51FA;&#x4E86;<code>Jack</code>&#xFF0C;<code>sayName2</code>&#x8F93;&#x51FA;&#x4E86;<code>Tom</code>&#x3002;</p>
+<h2 id="class&#x4E2D;&#x7684;methods"><a href="#class&#x4E2D;&#x7684;methods" class="headerlink" title="class&#x4E2D;&#x7684;methods"></a>class&#x4E2D;&#x7684;methods</h2><p>&#x4E00;&#x822C;&#x800C;&#x8A00;&#xFF0C;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x662F;&#x6CA1;&#x6709;<code>this</code>&#x7684;&#xFF0C;&#x5B83;&#x7684;<code>this</code>&#x6307;&#x5411;&#x6C38;&#x8FDC;&#x662F;&#x5B9A;&#x4E49;&#x65F6;&#x5305;&#x88F9;&#x5B83;&#x7684;&#x4EE3;&#x7801;&#x5757;&#x7684;<code>this</code>&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x53EF;&#x80FD;&#x6709;&#x90E8;&#x5206;&#x4EBA;&#x8BA4;&#x4E3A;&#xFF0C;&#x4E0A;&#x9762;&#x4EE3;&#x7801;<code>sayName2</code>&#x4E2D;&#x7684;<code>this</code>&#x6307;&#x5411;<code>window</code>&#xFF0C;&#x800C;<code>window</code>&#x4E0A;&#x6CA1;&#x6709;<code>name</code>&#xFF0C;&#x56E0;&#x6B64;&#x8F93;&#x51FA;<code>undefined</code>&#x3002;</p>
+<p>&#x7136;&#x800C;&#x5E38;&#x5199;React&#x7684;&#x4EBA;&#x5E94;&#x8BE5;&#x77E5;&#x9053;&#xFF0C;&#x901A;&#x8FC7;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5B9A;&#x4E49;methods&#x7684;&#x65B9;&#x5F0F;&#x5DF2;&#x7ECF;&#x6BD4;&#x8F83;&#x5E38;&#x89C1;&#x4E86;&#xFF0C;&#x5728;&#x91CC;&#x9762;&#x5E76;&#x4E0D;&#x4F1A;&#x51FA;&#x73B0;<code>this</code>&#x6307;&#x5411;<code>window</code>&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x8FD9;&#x662F;&#x4EC0;&#x4E48;&#x7F18;&#x6545;&#x5462;&#xFF1F;&#x6211;&#x4EEC;&#x8FD8;&#x662F;&#x5C06;&#x5BF9;&#x5E94;&#x4EE3;&#x7801;&#x7F16;&#x8BD1;&#x6210;es5&#x7684;&#x4EE3;&#x7801;&#x770B;&#x770B;&#x3002;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x5E72;&#x6270;&#x6027;&#xFF0C;&#x7F16;&#x8BD1;&#x524D;&#x5DF2;&#x7ECF;&#x53BB;&#x9664;Vue&#x76F8;&#x5173;</span></div><div class="line"><span class="keyword">var</span> People = <span class="comment">/** @class */</span> (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">People</span>(<span class="params"></span>) </span>{</div><div class="line">        <span class="keyword">var</span> _this = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">&apos;Tom&apos;</span>;</div><div class="line">        <span class="comment">// &#x6CE8;&#x610F;&#xFF0C;&#x6B64;&#x5904;&#x901A;&#x8FC7;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5B9A;&#x4E49;</span></div><div class="line">        <span class="keyword">this</span>.sayName2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</div><div class="line">            <span class="built_in">console</span>.log(_this.name);</div><div class="line">        };</div><div class="line">    }</div><div class="line">    People.prototype.sayName1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    };</div><div class="line">    People.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">&apos;Jack&apos;</span>;</div><div class="line">        <span class="keyword">this</span>.sayName1(); <span class="comment">// &#x8F93;&#x51FA;&#x4EC0;&#x4E48;&#xFF1F;</span></div><div class="line">        <span class="keyword">this</span>.sayName2(); <span class="comment">// &#x8F93;&#x51FA;&#x4EC0;&#x4E48;&#xFF1F;</span></div><div class="line">    };</div><div class="line">    <span class="keyword">return</span> People;</div><div class="line">}());</div></pre></td></tr></table></figure>
+<p>&#x56E0;&#x4E3A;&#x9879;&#x76EE;&#x4E2D;&#x4F7F;&#x7528;&#x7684;TypeScript&#xFF0C;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x76F4;&#x63A5;&#x4F7F;&#x7528;<a href="https://www.tslang.cn/play/index.html" target="_blank" rel="external">TypeScript</a>&#x7F16;&#x8BD1;&#x3002;</p>
+<p>&#x4ECE;&#x7F16;&#x8BD1;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x6765;&#x770B;&#x5C31;&#x5F88;&#x6E05;&#x6670;&#x4E86;&#xFF0C;class&#x4E2D;&#x666E;&#x901A;&#x65B9;&#x6CD5;&#x662F;&#x5B9A;&#x4E49;&#x5728;<code>prototype</code>&#x4E0A;&#xFF0C;&#x800C;&#x901A;&#x8FC7;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;method&#xFF0C;&#x5374;&#x662F;&#x76F4;&#x63A5;&#x5B9A;&#x4E49;&#x5728;&#x5B9E;&#x4F8B;&#x4E0A;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;<code>this</code>&#x4E5F;&#x7ED1;&#x5B9A;&#x5230;&#x4E86;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#x3002;&#x8FD9;&#x5B9E;&#x9645;&#x4E0A;&#x548C;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5728;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x7684;&#x8868;&#x73B0;&#x6709;&#x6240;&#x4E0D;&#x540C;&#xFF0C;&#x4F46;&#x8FD9;&#x66F4;&#x7B26;&#x5408;&#x76F4;&#x89C9;&#xFF0C;&#x56E0;&#x4E3A;&#x4E00;&#x822C;&#x800C;&#x8A00;&#xFF0C;&#x6211;&#x4EEC;&#x9ED8;&#x8BA4;class&#x4E2D;methods&#x7684;<code>this</code>&#x5C31;&#x5E94;&#x8BE5;&#x6307;&#x5411;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#xFF0C;&#x6CA1;&#x6709;&#x4EBA;&#x613F;&#x610F;&#x5728;&#x7ED1;&#x5B9A;&#x65B9;&#x6CD5;&#x7684;&#x65F6;&#x5019;&#x5199;&#x4E00;&#x5927;&#x5806;<code>bind(this)</code>&#x3002;</p>
+<h2 id="Component&#x88C5;&#x9970;&#x5668;&#x7684;&#x4E71;&#x5165;"><a href="#Component&#x88C5;&#x9970;&#x5668;&#x7684;&#x4E71;&#x5165;" class="headerlink" title="@Component&#x88C5;&#x9970;&#x5668;&#x7684;&#x4E71;&#x5165;"></a>@Component&#x88C5;&#x9970;&#x5668;&#x7684;&#x4E71;&#x5165;</h2><p>&#x6709;&#x5FC3;&#x4E4B;&#x4EBA;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#xFF0C;&#x5F53;&#x6211;&#x4EEC;&#x53BB;&#x9664;vue&#x76F8;&#x5173;&#x5185;&#x5BB9;&#x540E;&#xFF0C;&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x8F93;&#x51FA;&#x5747;&#x4E3A;<code>Jack</code>&#x3002;</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> People{</div><div class="line">    name = <span class="string">&apos;Tom&apos;</span>;</div><div class="line"></div><div class="line">    sayName1() {</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x6CE8;&#x610F;&#xFF0C;&#x6B64;&#x5904;&#x901A;&#x8FC7;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x5B9A;&#x4E49;</span></div><div class="line">    sayName2 = () =&gt; {</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">    }</div><div class="line"></div><div class="line">    say() {</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">&apos;Jack&apos;</span>;</div><div class="line">        <span class="keyword">this</span>.sayName1(); <span class="comment">// &#x8F93;&#x51FA;Jack</span></div><div class="line">        <span class="keyword">this</span>.sayName2(); <span class="comment">// &#x8F93;&#x51FA;Jack</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x5F88;&#x5BB9;&#x6613;&#x60F3;&#x5230;&#xFF0C;&#x5728;vue&#x4EE3;&#x7801;&#x4E2D;&#x4E4B;&#x6240;&#x4EE5;&#x4F1A;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x8868;&#x73B0;&#xFF0C;&#x80AF;&#x5B9A;&#x662F;&#x56E0;&#x4E3A;&#x589E;&#x52A0;&#x4E86;<code>@Component</code>&#x88C5;&#x9970;&#x5668;&#x7684;&#x7F18;&#x6545;&#x3002;</p>
+<p>&#x5728;vue&#x7EC4;&#x4EF6;&#x7684;<code>sayName1</code>&#x548C;<code>sayName2</code>&#x4E2D;&#x5206;&#x522B;&#x6253;&#x5370;&#x4E0B;<code>this</code>&#xFF0C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;</p>
+<p><code>sayName1</code>&#x8F93;&#x51FA;&#x7ED3;&#x679C;<br><img src="/2020/09/27/class&#x4E0E;this/&#x666E;&#x901A;&#x65B9;&#x6CD5;.png" alt="sayName1"></p>
+<p><code>sayName2</code>&#x8F93;&#x51FA;&#x7ED3;&#x679C;<br><img src="/2020/09/27/class&#x4E0E;this/&#x7BAD;&#x5934;&#x51FD;&#x6570;.png" alt="sayName2"></p>
+<p>&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#xFF0C;<code>sayName1</code>&#x4E2D;&#x7684;<code>this</code>&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4E00;&#x4E2A;<code>VueComponent</code>&#x5BF9;&#x8C61;&#xFF0C;<code>sayName2</code>&#x4E2D;&#x7684;<code>this</code>&#x624D;&#x6307;&#x5411;&#x7684;&#x662F;<code>People</code>&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x8FD9;&#x4E48;&#x770B;&#x6765;&#xFF0C;&#x7ECF;&#x8FC7;<code>@Component</code>&#x5305;&#x88F9;&#x540E;&#x7684;class&#xFF0C;&#x5DF2;&#x7ECF;&#x53D8;&#x6210;&#x4E86;<code>VueComponent</code>&#xFF0C;&#x6765;&#x770B;&#x4E0B;&#x5BF9;&#x5E94;&#x7684;&#x6E90;&#x7801;&#x5B9E;&#x73B0;&#x3002;</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">componentFactory</span> (<span class="params"></span></span></div><div class="line">    Component: VueClass&lt;Vue&gt;,</div><div class="line">    options: ComponentOptions&lt;Vue&gt; = {}</div><div class="line">  ): <span class="title">VueClass</span>&lt;<span class="title">Vue</span>&gt; {</div><div class="line"></div><div class="line">    <span class="comment">// &#x5220;&#x51CF;&#x5177;&#x4F53;&#x5904;&#x7406;&#x903B;&#x8F91;</span></div><div class="line"></div><div class="line">    <span class="comment">// find super</span></div><div class="line">    <span class="keyword">const</span> superProto = <span class="built_in">Object</span>.getPrototypeOf(Component.prototype)</div><div class="line">    <span class="keyword">const</span> Super = superProto <span class="keyword">instanceof</span> Vue</div><div class="line">      ? superProto.constructor as VueClass&lt;Vue&gt;</div><div class="line">      : Vue</div><div class="line">    <span class="keyword">const</span> Extended = Super.extend(options)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> Extended</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x9762;&#x662F;&#x7ECF;&#x8FC7;&#x5220;&#x51CF;&#x540E;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;<code>@Component</code>&#x88C5;&#x9970;&#x5668;&#x7684;&#x672C;&#x8D28;&#xFF0C;&#x662F;&#x5C06;&#x901A;&#x8FC7;class&#x5B9A;&#x4E49;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x653E;&#x5230;&#x4E86;&#x4E00;&#x4E2A;<code>options</code>&#x5F53;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;<code>Vue.extend</code>&#x6269;&#x5C55;&#x51FA;&#x4E86;&#x4E00;&#x4E2A;&#x5B50;&#x7C7B;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;&#x5B50;&#x7C7B;&#x8FD4;&#x56DE;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x4F7F;&#x7528;<code>@Component</code>&#x88C5;&#x9970;&#x5668;&#x540E;&#xFF0C;&#x666E;&#x901A;&#x65B9;&#x6CD5;&#x91CC;&#x9762;&#x7684;<code>this</code>&#x65E9;&#x5DF2;&#x7ECF;&#x4E0D;&#x662F;&#x6307;&#x5411;&#x539F;&#x6765;&#x7684;<code>People</code>&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x662F;&#x6307;&#x5411;&#x8FD9;&#x4E2A;&#x901A;&#x8FC7;<code>Vue.extend</code>&#x51FA;&#x6765;&#x7684;&#x5B50;&#x7C7B;&#x3002;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x91CC;&#x7684;&#x5219;&#x4F9D;&#x7136;&#x6307;&#x5411;&#x4E86;<code>People</code>&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x4ECE;<code>@Component</code>&#x88C5;&#x9970;&#x5668;&#x7684;&#x5B9E;&#x73B0;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;vue&#x672C;&#x8EAB;&#x4F7F;&#x7528;&#x7684;&#x914D;&#x7F6E;&#x5316;&#x7684;&#x8BED;&#x6CD5;&#x548C;typescript&#x652F;&#x6301;&#x5F97;&#x786E;&#x5B9E;&#x4E0D;&#x592A;&#x597D;&#xFF0C;&#x88C5;&#x9970;&#x5668;&#x7684;&#x5B9E;&#x73B0;&#x4E5F;&#x6BD4;&#x8F83;trick&#xFF0C;&#x5F3A;&#x884C;&#x5C06;class&#x8F6C;&#x6362;&#x6210;&#x4E86;&#x4E00;&#x4E2A;options&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x548C;React&#x662F;&#x6709;&#x533A;&#x522B;&#x7684;&#x3002;</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>「真诚赞赏，手留余香」</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechat.jpeg" alt="Li Chuckie 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/alipay.jpeg" alt="Li Chuckie 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+            <a href="/tags/this/" rel="tag"># this</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/21/《你不知道的JavaScript》读书笔记——属性设置和屏蔽/" rel="next" title="《你不知道的JavaScript》读书笔记——属性设置和屏蔽">
+                <i class="fa fa-chevron-left"></i> 《你不知道的JavaScript》读书笔记——属性设置和屏蔽
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Li Chuckie"/>
+            
+              <p class="site-author-name" itemprop="name">Li Chuckie</p>
+              <div class="site-description motion-element" itemprop="description">略显文艺的工科男</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class中的methods"><span class="nav-number">3.</span> <span class="nav-text">class中的methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Component装饰器的乱入"><span class="nav-number">4.</span> <span class="nav-text">@Component装饰器的乱入</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Chuckie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.2.2</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '5WmYIdMAa7CmA42J01zf6dlE-gzGzoHsz',
+    appKey: 'cJ1xeQN409Yo27GJvInhWXwY',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
