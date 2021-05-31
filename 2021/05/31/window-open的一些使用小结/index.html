@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;#x4ECE;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#x8BF4;&amp;#x8D77;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x9700;&amp;#x6C42;&amp;#x4E2D;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#xFF0C;&amp;#x5927;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="window.open的一些使用小结">
+<meta property="og:url" content="http://yoursite.com/2021/05/31/window-open的一些使用小结/index.html">
+<meta property="og:site_name" content="桃李无言">
+<meta property="og:description" content="&amp;#x4ECE;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#x8BF4;&amp;#x8D77;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x9700;&amp;#x6C42;&amp;#x4E2D;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#xFF0C;&amp;#x5927;&amp;#">
+<meta property="og:image" content="http://yoursite.com/2021/05/31/window-open的一些使用小结/bug.gif">
+<meta property="og:image" content="http://yoursite.com/2021/05/31/window-open的一些使用小结/demo-security.gif">
+<meta property="og:image" content="http://yoursite.com/2021/05/31/window-open的一些使用小结/demo-performance.gif">
+<meta property="og:updated_time" content="2021-05-31T10:48:39.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="window.open的一些使用小结">
+<meta name="twitter:description" content="&amp;#x4ECE;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#x8BF4;&amp;#x8D77;&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x9700;&amp;#x6C42;&amp;#x4E2D;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x611A;&amp;#x8822;&amp;#x7684;bug&amp;#xFF0C;&amp;#x5927;&amp;#">
+<meta name="twitter:image" content="http://yoursite.com/2021/05/31/window-open的一些使用小结/bug.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/05/31/window-open的一些使用小结/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>window.open的一些使用小结 | 桃李无言</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">桃李无言</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/31/window-open的一些使用小结/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Chuckie"/>
+      <meta itemprop="description" content="略显文艺的工科男"/>
+      <meta itemprop="image" content="/uploads/avatar.jpg"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桃李无言"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">window.open的一些使用小结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-05-31 14:11:14 / 修改时间：18:48:39" itemprop="dateCreated datePublished" datetime="2021-05-31T14:11:14+08:00">2021-05-31</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2021/05/31/window-open的一些使用小结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/05/31/window-open的一些使用小结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="&#x4ECE;&#x4E00;&#x4E2A;&#x611A;&#x8822;&#x7684;bug&#x8BF4;&#x8D77;"><a href="#&#x4ECE;&#x4E00;&#x4E2A;&#x611A;&#x8822;&#x7684;bug&#x8BF4;&#x8D77;" class="headerlink" title="&#x4ECE;&#x4E00;&#x4E2A;&#x611A;&#x8822;&#x7684;bug&#x8BF4;&#x8D77;"></a>&#x4ECE;&#x4E00;&#x4E2A;&#x611A;&#x8822;&#x7684;bug&#x8BF4;&#x8D77;</h2><p>&#x4E4B;&#x524D;&#x7684;&#x9700;&#x6C42;&#x4E2D;&#x9047;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x611A;&#x8822;&#x7684;bug&#xFF0C;&#x5927;&#x81F4;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;&#x7528;&#x6237;&#x8BE6;&#x60C5;&#x9875;A1 &#x2014;&#x2014;&gt; &#x7528;&#x6237;&#x8BE6;&#x60C5;&#x9875;A2 &#x2014;&#x2014;&gt; &#x7528;&#x6237;&#x8BE6;&#x60C5;&#x9875;A3&#xFF0C;&#x671F;&#x671B;&#x6BCF;&#x6B21;&#x90FD;&#x662F;&#x6253;&#x5F00;&#x65B0;&#x6807;&#x7B7E;&#x9875;&#x8DF3;&#x8F6C;&#x3002;&#x5F88;&#x7B80;&#x5355;&#x4E00;&#x4E2A;&#x9700;&#x6C42;&#xFF0C;&#x7136;&#x800C;&#x5728;&#x5B9E;&#x73B0;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6211;&#x9664;&#x4E86;&#x7B2C;&#x4E00;&#x6B21;&#x662F;&#x65B0;&#x5F00;&#x6807;&#x7B7E;&#x9875;&#x8DF3;&#x8F6C;&#xFF0C;&#x540E;&#x7EED;&#x9875;&#x9762;&#x5168;&#x662F;&#x5728;&#x5DF2;&#x7ECF;&#x6253;&#x5F00;&#x7684;&#x6807;&#x7B7E;&#x9875;&#x5237;&#x65B0;&#xFF0C;&#x5927;&#x81F4;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="/2021/05/31/window-open&#x7684;&#x4E00;&#x4E9B;&#x4F7F;&#x7528;&#x5C0F;&#x7ED3;/bug.gif" alt="sayName1"></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x901A;&#x8FC7;a&#x6807;&#x7B7E;&#x6253;&#x5F00;&#x7684;&#x5B50;&#x9875;&#x9762;&#x6B63;&#x5E38;&#xFF0C;&#x800C;&#x901A;&#x8FC7;<code>window.open()</code>&#x6253;&#x5F00;&#x7684;&#x65B0;&#x6807;&#x7B7E;&#x9875;&#x53EA;&#x6709;&#x7B2C;&#x4E00;&#x6B21;&#x6210;&#x529F;&#x6253;&#x5F00;&#x4E86;&#x65B0;&#x6807;&#x7B7E;&#x9875;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x73B0;&#x8C61;&#x5F15;&#x8D77;&#x4E86;&#x6211;&#x7684;&#x5173;&#x6CE8;&#xFF0C;&#x9042;&#x53BB;&#x7F51;&#x4E0A;&#x641C;&#x7D22;&#x76F8;&#x5173;case&#xFF0C;&#x7136;&#x800C;&#x4EFB;&#x6211;&#x53D8;&#x5316;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x4E5F;&#x6CA1;&#x53D1;&#x73B0;&#x6709;&#x5176;&#x4ED6;&#x4EBA;&#x9047;&#x5230;&#x548C;&#x6211;&#x7C7B;&#x4F3C;&#x7684;&#x95EE;&#x9898;&#x3002;&#x4E8E;&#x662F;&#x6211;&#x610F;&#x8BC6;&#x5230;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x6211;&#x72AF;&#x4E86;&#x4E00;&#x4E9B;&#x4F4E;&#x7EA7;&#x9519;&#x8BEF;&#x2026;&#x2026;&#x7ECF;&#x8FC7;&#x53CD;&#x590D;&#x6392;&#x67E5;&#xFF0C;&#x6700;&#x7EC8;&#x5B9A;&#x4F4D;&#x5230;&#x4E86;&#x95EE;&#x9898;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.open(url, <span class="string">&apos;_target&apos;</span>);</div></pre></td></tr></table></figure>
+<p>&#x539F;&#x6765;&#x662F;&#x6211;&#x628A;<code>window.open()</code>&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x4ECE;<code>_blank</code>&#x5199;&#x6210;&#x4E86;<code>_target</code>&#x3002;</p>
+<p>&#x53C2;&#x8003;<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/open" target="_blank" rel="external">MDN</a>&#xFF0C;<code>window.oepn()</code>&#x652F;&#x6301;3&#x4E2A;&#x53C2;&#x6570;&#xFF0C;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> windowObjectReference = <span class="built_in">window</span>.open(strUrl, strWindowName, [strWindowFeatures]);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">strUrl === &#x8981;&#x5728;&#x65B0;&#x6253;&#x5F00;&#x7684;&#x7A97;&#x53E3;&#x4E2D;&#x52A0;&#x8F7D;&#x7684;URL&#x3002;</div><div class="line"></div><div class="line">strWindowName === &#x65B0;&#x7A97;&#x53E3;&#x7684;&#x540D;&#x79F0;&#x3002;</div><div class="line"></div><div class="line">strWindowFeatures === &#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#xFF0C;&#x5217;&#x51FA;&#x65B0;&#x7A97;&#x53E3;&#x7684;&#x7279;&#x5F81;(&#x5927;&#x5C0F;&#xFF0C;&#x4F4D;&#x7F6E;&#xFF0C;&#x6EDA;&#x52A8;&#x6761;&#x7B49;)&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;DOMString&#x3002;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x4EE5; strWindowName &#x4E3A;&#x540D;&#x79F0;&#x7684;&#x7A97;&#x53E3;&#xFF0C;&#x5219;&#x4E0D;&#x518D;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x65B0;&#x7A97;&#x53E3;&#xFF0C;&#x800C;&#x662F;&#x628A; strUrl &#x52A0;&#x8F7D;&#x5230;&#x8FD9;&#x4E2A;&#x7A97;&#x53E3;&#x4E2D;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x662F;&#x8FD9;&#x4E2A;&#x5DF2;&#x7ECF;&#x6253;&#x5F00;&#x7684;&#x7A97;&#x53E3;&#xFF0C;&#x5E76;&#x5FFD;&#x7565;&#x53C2;&#x6570; strWindowFeatures &#x3002;strUrl&#x8BBE;&#x4E3A;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x6539;&#x53D8;&#x7A97;&#x53E3;&#x5730;&#x5740;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x5DF2;&#x7ECF;&#x6253;&#x5F00;&#x7684;&#x540C;&#x540D;&#x7A97;&#x53E3;&#x7684;&#x5F15;&#x7528;&#x3002;&#x5982;&#x679C;&#x8981;&#x5728;&#x6BCF;&#x6B21;&#x8C03;&#x7528; window.open()&#x65F6;&#x90FD;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x65B0;&#x7A97;&#x53E3;&#xFF0C;&#x5219;&#x8981;&#x628A;&#x53C2;&#x6570; strWindowName &#x8BBE;&#x7F6E;&#x4E3A; _blank&#x3002;</p>
+</blockquote>
+<p>&#x95EE;&#x9898;&#x81F3;&#x6B64;&#x8FCE;&#x5203;&#x800C;&#x89E3;&#xFF0C;&#x4E0D;&#x8FC7;&#x5728;&#x641C;&#x7D22;<code>window.open()</code>&#x76F8;&#x5173;&#x8D44;&#x6599;&#x7684;&#x95EE;&#x9898;&#x4E2D;&#xFF0C;&#x5012;&#x662F;&#x53D1;&#x73B0;&#x4E86;<code>window.open()</code>&#x5728;&#x65E5;&#x5E38;&#x4F7F;&#x7528;&#x4E2D;&#x5B58;&#x5728;&#x7684;&#x5B89;&#x5168;&#x548C;&#x6027;&#x80FD;&#x95EE;&#x9898;&#xFF0C;&#x5C06;&#x5176;&#x4E00;&#x8D77;&#x6574;&#x7406;&#x4E0B;&#x3002;</p>
+<h2 id="&#x5B89;&#x5168;&#x95EE;&#x9898;"><a href="#&#x5B89;&#x5168;&#x95EE;&#x9898;" class="headerlink" title="&#x5B89;&#x5168;&#x95EE;&#x9898;"></a>&#x5B89;&#x5168;&#x95EE;&#x9898;</h2><h3 id="&#x4F8B;&#x5B50;1"><a href="#&#x4F8B;&#x5B50;1" class="headerlink" title="&#x4F8B;&#x5B50;1"></a>&#x4F8B;&#x5B50;1</h3><h4 id="&#x73B0;&#x8C61;"><a href="#&#x73B0;&#x8C61;" class="headerlink" title="&#x73B0;&#x8C61;"></a>&#x73B0;&#x8C61;</h4><ul>
+<li>&#x4EFB;&#x610F;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#xFF0C;F12&#x6253;&#x5F00;&#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;</li>
+<li>&#x63A7;&#x5236;&#x53F0;Console&#x4E2D;&#x8F93;&#x5165;<code>window.open(&apos;https://www.baidu.com&apos;)</code></li>
+<li>&#x5728;&#x65B0;&#x5F00;&#x7684;&#x6807;&#x7B7E;&#x9875;&#x4E2D;&#xFF0C;&#x6253;&#x5F00;&#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;&#xFF0C;&#x63A7;&#x5236;&#x53F0;Console&#x4E2D;&#x8F93;&#x5165;<code>window.opener.location=&apos;https://www.baidu.com&apos;</code></li>
+<li>&#x54A6;&#xFF1F;&#x539F;&#x6709;&#x9875;&#x9762;&#x53D8;&#x6210;&#x4E86;&#x767E;&#x5EA6;&#x9996;&#x9875;</li>
+</ul>
+<p><img src="/2021/05/31/window-open&#x7684;&#x4E00;&#x4E9B;&#x4F7F;&#x7528;&#x5C0F;&#x7ED3;/demo-security.gif" alt="sayName1"></p>
+<h4 id="&#x5371;&#x5BB3;"><a href="#&#x5371;&#x5BB3;" class="headerlink" title="&#x5371;&#x5BB3;"></a>&#x5371;&#x5BB3;</h4><p>&#x65E2;&#x7136;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7236;&#x7A97;&#x53E3;&#x7684;&#x94FE;&#x63A5;&#xFF0C;&#x8BA9;&#x7236;&#x7A97;&#x53E3;&#x663E;&#x793A;&#x6307;&#x5B9A;&#x7684;&#x9875;&#x9762;&#xFF0C;&#x90A3;&#x4E48;&#x7B2C;&#x4E00;&#x4E2A;&#x60F3;&#x5230;&#x7684;&#x5371;&#x5BB3;&#x80AF;&#x5B9A;&#x5C31;&#x662F;&#x9493;&#x9C7C;&#x7F51;&#x7AD9;&#x3002;</p>
+<ul>
+<li>&#x6B63;&#x5E38;&#x6D4F;&#x89C8;&#x9875;&#x9762;&#xFF0C;&#x6253;&#x5F00;&#x5916;&#x94FE;&#x8DF3;&#x5230;&#x5176;&#x4ED6;&#x7AD9;&#x70B9;</li>
+<li>&#x65B0;&#x9875;&#x9762;&#x901A;&#x8FC7;&#x4FEE;&#x6539;<code>window.opener.location</code>&#x5C06;&#x539F;&#x9875;&#x9762;&#x66FF;&#x6362;&#x4E3A;&#x4E00;&#x6A21;&#x4E00;&#x6837;&#x7684;&#x9493;&#x9C7C;&#x9875;&#x9762;&#xFF0C;&#x5E76;&#x5F15;&#x5BFC;&#x7528;&#x6237;&#x91CD;&#x65B0;&#x767B;&#x9646;</li>
+<li>&#x8F93;&#x5165;&#x8D26;&#x53F7;&#x5BC6;&#x7801;&#xFF0C;&#x8D26;&#x53F7;&#x88AB;&#x76D7;</li>
+</ul>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x5982;&#x679C;&#x7EC6;&#x5FC3;&#x4E00;&#x4E9B;&#xFF0C;&#x518D;&#x56DE;&#x5230;&#x539F;&#x9875;&#x9762;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x53D1;&#x73B0;&#x57DF;&#x540D;&#x53D8;&#x4E86;&#xFF0C;&#x7136;&#x800C;&#x6B63;&#x5E38;&#x6D4F;&#x89C8;&#x4E2D;&#x8C01;&#x4F1A;&#x65F6;&#x523B;&#x5173;&#x6CE8;&#x57DF;&#x540D;&#x7684;&#x53D8;&#x5316;&#x5462;&#x3002;</p>
+<h4 id="&#x539F;&#x56E0;"><a href="#&#x539F;&#x56E0;" class="headerlink" title="&#x539F;&#x56E0;"></a>&#x539F;&#x56E0;</h4><p>&#x901A;&#x8FC7;<code>window.open(url)</code>&#x6253;&#x5F00;&#x7684;&#x65B0;&#x9875;&#x9762;&#xFF0C;&#x4F1A;&#x6709;&#x4E2A;<code>window.opener</code>&#x5BF9;&#x8C61;&#xFF0C;&#x4ECE;<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/opener" target="_blank" rel="external">MDN</a>&#x5F97;&#x77E5;&#xFF0C;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x6253;&#x5F00;&#x5F53;&#x524D;&#x7A97;&#x53E3;&#x7684;&#x90A3;&#x4E2A;&#x7A97;&#x53E3;&#x5F15;&#x7528;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;&#x5728;window A&#x4E2D;&#x6253;&#x5F00;&#x4E86;window B&#xFF0C;B.opener &#x8FD4;&#x56DE; A&#x3002;</p>
+<p>&#x5982;&#x679C;&#x7236;&#x9875;&#x9762;&#x548C;&#x65B0;&#x5F00;&#x7A97;&#x53E3;&#x4E2D;&#x7684;&#x9875;&#x9762;&#x662F;&#x4E0D;&#x540C;&#x57DF;&#x540D;&#x7684;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x7981;&#x6B62;&#x65B0;&#x7A97;&#x53E3;&#x8BBF;&#x95EE;opener&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x3002;&#x4F46;&#x662F;&#x6709;&#x4E00;&#x4E2A;&#x64CD;&#x4F5C;&#x9664;&#x5916;&#xFF1A;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;window.opener.location = newURL&#x6765;&#x91CD;&#x5199;&#x7236;&#x9875;&#x9762;&#x7684;url&#xFF0C;&#x5373;&#x4F7F;&#x4E0E;&#x7236;&#x7A97;&#x53E3;&#x7684;&#x9875;&#x9762;&#x4E0D;&#x540C;&#x57DF;&#x3002;</p>
+<h2 id="&#x6027;&#x80FD;&#x95EE;&#x9898;"><a href="#&#x6027;&#x80FD;&#x95EE;&#x9898;" class="headerlink" title="&#x6027;&#x80FD;&#x95EE;&#x9898;"></a>&#x6027;&#x80FD;&#x95EE;&#x9898;</h2><h3 id="&#x4F8B;&#x5B50;2"><a href="#&#x4F8B;&#x5B50;2" class="headerlink" title="&#x4F8B;&#x5B50;2"></a>&#x4F8B;&#x5B50;2</h3><h4 id="&#x73B0;&#x8C61;-1"><a href="#&#x73B0;&#x8C61;-1" class="headerlink" title="&#x73B0;&#x8C61;"></a>&#x73B0;&#x8C61;</h4><ul>
+<li>&#x6253;&#x5F00;&#x6D4B;&#x8BD5;&#x9875;&#x9762;&#xFF0C;&#x6D4B;&#x8BD5;&#x9875;&#x9762;&#x4E0A;&#x6709;&#x4E2A;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x968F;&#x673A;&#x6570;10ms&#x53D8;&#x52A8;&#x4E00;&#x6B21;</li>
+<li>&#x70B9;&#x51FB;&#x6309;&#x94AE;&#x6253;&#x5F00;&#x65B0;&#x6807;&#x7B7E;&#x9875;&#xFF0C;&#x5728;&#x65B0;&#x6807;&#x7B7E;&#x9875;&#x4E2D;&#x6253;&#x5F00;&#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;&#xFF0C;&#x70B9;&#x51FB;debug&#x6309;&#x94AE;</li>
+<li>&#x56DE;&#x5230;&#x539F;&#x9875;&#x9762;&#xFF0C;&#x53D1;&#x73B0;&#x968F;&#x673A;&#x6570;&#x6682;&#x505C;&#x53D8;&#x52A8;&#x4E86;&#xFF0C;&#x8BF4;&#x660E;&#x88AB;debug&#x963B;&#x585E;</li>
+</ul>
+<p><img src="/2021/05/31/window-open&#x7684;&#x4E00;&#x4E9B;&#x4F7F;&#x7528;&#x5C0F;&#x7ED3;/demo-performance.gif" alt="sayName1"></p>
+<h4 id="&#x5371;&#x5BB3;-1"><a href="#&#x5371;&#x5BB3;-1" class="headerlink" title="&#x5371;&#x5BB3;"></a>&#x5371;&#x5BB3;</h4><p>&#x4ECE;&#x4E0A;&#x9762;&#x793A;&#x4F8B;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x65B0;&#x9875;&#x9762;&#x7684;js&#x6267;&#x884C;&#x4F1A;&#x963B;&#x585E;&#x539F;&#x9875;&#x9762;&#x7684;js&#xFF0C;&#x5982;&#x679C;&#x65B0;&#x9875;&#x9762;&#x7684;js&#x8FD0;&#x884C;&#x6BD4;&#x8F83;&#x8017;&#x65F6;&#xFF0C;&#x52BF;&#x5FC5;&#x4F1A;&#x5BFC;&#x81F4;&#x539F;&#x9875;&#x9762;&#x7684;&#x5361;&#x987F;&#x3002;</p>
+<h4 id="&#x539F;&#x56E0;-1"><a href="#&#x539F;&#x56E0;-1" class="headerlink" title="&#x539F;&#x56E0;"></a>&#x539F;&#x56E0;</h4><p><code>window.open(url)</code>&#x5728;&#x65B0;&#x7A97;&#x53E3;&#x4E2D;&#x6253;&#x5F00;&#x9875;&#x9762;, &#x4F1A;&#x4E0E;&#x7236;&#x7A97;&#x53E3;&#x5171;&#x7528;&#x8FDB;&#x7A0B;&#x548C;&#x7EBF;&#x7A0B;&#xFF0C;&#x56E0;&#x4E3A;opener&#x91CC;&#x6709;DOM&#x4FE1;&#x606F;&#xFF0C;&#x4E24;&#x4E2A;&#x8FDB;&#x7A0B;&#x540C;&#x65F6;&#x63A7;&#x5236;DOM&#x4FE1;&#x606F;&#xFF0C;&#x5728;&#x591A;&#x8FDB;&#x7A0B;&#x4E0B;&#x6BD4;&#x8F83;&#x96BE;&#x63A7;&#x5236;&#xFF0C;&#x56E0;&#x6B64;&#x5E72;&#x8106;&#x653E;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x91CC;&#x3002;</p>
+<h2 id="&#x9632;&#x8303;"><a href="#&#x9632;&#x8303;" class="headerlink" title="&#x9632;&#x8303;"></a>&#x9632;&#x8303;</h2><p>&#x65E2;&#x7136;&#x77E5;&#x9053;&#x4E86;&#x95EE;&#x9898;&#x6240;&#x5728;&#xFF0C;&#x90A3;&#x81EA;&#x7136;&#x4E5F;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x9632;&#x8303;&#x4E86;&#x3002;&#x6211;&#x4EEC;&#x7684;&#x601D;&#x8DEF;&#x662F;&#x8BBE;&#x7F6E;opener&#x4E3A;&#x7A7A;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> newWnd = <span class="built_in">window</span>.open(url);</div><div class="line">newWnd.opener = <span class="literal">null</span>;</div><div class="line">newWnd.location = url;</div></pre></td></tr></table></figure>
+<h2 id="&#x5173;&#x4E8E;a&#x6807;&#x7B7E;"><a href="#&#x5173;&#x4E8E;a&#x6807;&#x7B7E;" class="headerlink" title="&#x5173;&#x4E8E;a&#x6807;&#x7B7E;"></a>&#x5173;&#x4E8E;a&#x6807;&#x7B7E;</h2><p>&#x7F51;&#x7EDC;&#x4E0A;&#x7684;&#x4E00;&#x4E9B;&#x535A;&#x5BA2;&#x4E2D;&#x8BF4;&#xFF0C;&#x901A;&#x8FC7;a&#x6807;&#x7B7E;&#x4F7F;&#x7528;<code>target=&quot;_blank&quot;</code>&#x65B9;&#x5F0F;&#x6253;&#x5F00;&#x7684;&#x65B0;&#x9875;&#x9762;&#x4E5F;&#x4F1A;&#x5B58;&#x5728;opener&#x7684;&#x5B89;&#x5168;&#x95EE;&#x9898;&#xFF0C;&#x9700;&#x8981;&#x52A0;&#x4E0A;<code>rel=&quot;noopener&quot;</code>&#x6765;&#x9632;&#x8303;&#x3002;&#x4E0D;&#x8FC7;&#x7ECF;&#x8FC7;&#x6211;&#x6D4B;&#x8BD5;&#x4E4B;&#x540E;&#xFF0C;&#x76EE;&#x524D;&#x7684;chrome(91.0.4472.77)&#x4E2D;&#x7684;a&#x6807;&#x7B7E;&#x5DF2;&#x7ECF;&#x4E0D;&#x5B58;&#x5728;&#x8FD9;&#x95EE;&#x9898;&#xFF0C;Safari&#x4F9D;&#x7136;&#x5B58;&#x5728;&#x3002;&#x5728;&#x7F51;&#x4E0A;&#x641C;&#x7D22;&#x4E00;&#x756A;&#xFF0C;&#x53D1;&#x73B0;Chrome&#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x9ED8;&#x8BA4;&#x628A;a&#x6807;&#x7B7E;&#x7684;rel&#x8BBE;&#x7F6E;&#x4E3A;noopener&#x4E86;<a href="https://www.chromestatus.com/feature/6140064063029248" target="_blank" rel="external"> Feature: Anchor target=_blank implies rel=noopener by default</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>「真诚赞赏，手留余香」</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechat.jpeg" alt="Li Chuckie 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/alipay.jpeg" alt="Li Chuckie 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/27/class与this/" rel="next" title="class与this">
+                <i class="fa fa-chevron-left"></i> class与this
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="Li Chuckie"/>
+            
+              <p class="site-author-name" itemprop="name">Li Chuckie</p>
+              <div class="site-description motion-element" itemprop="description">略显文艺的工科男</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从一个愚蠢的bug说起"><span class="nav-number">1.</span> <span class="nav-text">从一个愚蠢的bug说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全问题"><span class="nav-number">2.</span> <span class="nav-text">安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子1"><span class="nav-number">2.1.</span> <span class="nav-text">例子1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#现象"><span class="nav-number">2.1.1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#危害"><span class="nav-number">2.1.2.</span> <span class="nav-text">危害</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原因"><span class="nav-number">2.1.3.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能问题"><span class="nav-number">3.</span> <span class="nav-text">性能问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子2"><span class="nav-number">3.1.</span> <span class="nav-text">例子2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#现象-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#危害-1"><span class="nav-number">3.1.2.</span> <span class="nav-text">危害</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原因-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防范"><span class="nav-number">4.</span> <span class="nav-text">防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于a标签"><span class="nav-number">5.</span> <span class="nav-text">关于a标签</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Chuckie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.2.2</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '5WmYIdMAa7CmA42J01zf6dlE-gzGzoHsz',
+    appKey: 'cJ1xeQN409Yo27GJvInhWXwY',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
